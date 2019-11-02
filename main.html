@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="main.css" />
+	</head>
+	
+	
+	<body>
+	
+		<div class="main_content">
+		
+			<div class="content1"> 
+				<p style="font-size: 1.5em; color: blue;">Introduction</p>
+				<div class="holders">
+					<div class="left">
+						IntelliDota paraqet nje projekt inteligjent qe kryen algoritmet e Klasifikimit dhe Kllasterimit ne burimet e te dhenave perkatese. Si gjuhe programuese kryesore 
+						qe mundeson keto aplikime eshte perdorur Scala, me frameworkun perkates Play 2.0. Perveç qe i lejon kompjuterit lokal apo ndonje burimi tjeter qe te perdore ne 
+						menyre maksimale burimet e tij, Scala po ashtu ofron librarine per Machine Learning, te quajtur MLLib, librari baze e projektit tone. 
+					</div>	
+
+					<div class="right">
+						Explanatory section, psh nese e klikon naj fjale prej tekstit ne te majt, ktu qet spjegime per qat fjale. Psh nese klikohet fjala 'Scala' prej anes se majte, ktu del:
+						Scala eshte nje gjuhe programuese qe shquhet per procesimin me te dhena dhe programimit funksional e sene. Can we do this?
+					</div>
+				</div>
+					
+			</div>
+			
+			<div class="content2">
+				<p style="font-size: 1.5em; color: blue;">Herlper Boxes</p>
+				<div class="holders">
+					<div class="box1">
+						<div class="flip-card">
+						  <div class="flip-card-inner">
+							<div class="flip-card-front">
+								<p>Classification</p>
+								<p>Rows: 15000</p>
+								<p>Columns: 22</p>
+								<p>Source: fetched</p>
+							</div>
+							<div class="flip-card-back">
+								<p>With classification, we have predicted whether the radiant team is going to win or not by taking into account columns we have thought as being 
+								more predictive. Our algorithm accuracy is at around 90%.</p>
+							</div>
+						  </div>
+						</div>		
+					</div>
+					
+					<div class="box2">
+						<div class="flip-card">
+						  <div class="flip-card-inner">
+							<div class="flip-card-front">							
+								<p>Clustering</p>
+								<p>Rows: 15000</p>
+								<p>Columns: 22</p>
+								<p>Source: kaggle</p>
+							</div>
+							<div class="flip-card-back">							
+							<p>With clustering, we have predicted whether the radiant team is going to w.................. text text.</p>
+							</div>
+						  </div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			
+			<div class="content3">
+				<p style="font-size: 1.5em; color: blue;">Classification</p>
+				<p><b>Stages</b></p>
+				<img width="850px" src="fly.png" />
+				<div class="sect">
+					<div class="s1">
+						<p><i>Emri i funksionit(stage)</i>: assembler</p>
+						<p><i>Parametrat</i></p>
+						<p>inputCols: array</p>
+						<p>outputCols: featured</p>
+					</div>
+					<div class="s2">
+						<p><i>Emri i funksionit(stage)</i>: normalizer</p>
+						<p><i>Parametrat</i></p>
+						<p>inputCols: array</p>
+						<p>withStd: true</p>
+						<p>WithMean: true</p>
+					</div>
+					<div class="s3">
+						<p><i>Emri i funksionit(stage)</i>: random_tree</p>
+						<p><i>Parametrat</i></p>
+						<p>NrOfSeeds: 7</p>
+						<p>Depth: 30 trees</p>
+						<p>K: 3</p>
+					</div>
+				</div>
+				<p><b>Evaluation metrics: </b></p>
+				<p>Root mean squared error: 1234</p>
+				<p>Accuracy: 80% </p>
+			</div>
+			
+			<div class="content4">
+				<p style="font-size: 1.5em; color: blue;">Clustering</p>
+				<p><b>Helper methods:</b> Dalsdjaslkdjasd</p>
+				<p><b>Columns: </b></p>
+				<p>Prej API get columsn i marrim</p>
+				<p><b>Evaluation metrics: </b></p>
+				<p>Silhouette: 5 </p>
+				<p><b>Parameters: </b></p>
+				<p>K-seeds: 3, number of clusters: 6, iterations: 250</p>
+			</div>
+			
+			<div class="content5">
+				<p style="font-size: 1.5em; color: blue;">Thirrjet e mundshme te API</p>
+				<table align="center" class="table">
+					<tr>
+						<th>Call</th>
+						<th>Params</th>
+						<th>Description</th>
+					</tr>
+					<tr>
+						<td>/getPipes</td>
+						<td>None</td>
+						<td>Gets column of the specified dataframe.</td>
+					</tr>
+					<tr>
+						<td>/getSample</td>
+						<td>number</td>
+						<td>Gets a sample of the classifying dataframe.</td>
+					</tr>
+					<tr>
+						<td>/getThis</td>
+						<td>None</td>
+						<td>Gets column of the specified dataframe.</td>
+					</tr>
+					<tr>
+						<td>/getThat</td>
+						<td>this, that, him, her</td>
+						<td>Gets column of the specified dataframe.</td>
+					</tr>
+					<tr>
+						<td> A lot more here </td>
+						<td>More</td>
+						<td>More and more</td>
+					</tr>
+					
+				</table>
+			</div>
+			
+			<div class="content6">
+				Last words ose najsen tejter nese na kujtohet rruges, amo kryesorja qeshtu kemi me e majt pak a shume
+			</div>
+		</div>
+	
+	</body>
+</html>

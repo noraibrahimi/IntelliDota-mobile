@@ -1,0 +1,182 @@
+[
+  {
+    "bucket": "1.0",
+    "count": "5",
+    "border": "472.0"
+  },
+  {
+    "bucket": "2.0",
+    "count": "7",
+    "border": "793.0"
+  },
+  {
+    "bucket": "3.0",
+    "count": "4",
+    "border": "1114.0"
+  },
+  {
+    "bucket": "4.0",
+    "count": "3",
+    "border": "1435.0"
+  },
+  {
+    "bucket": "5.0",
+    "count": "17",
+    "border": "1756.0"
+  },
+  {
+    "bucket": "6.0",
+    "count": "28",
+    "border": "2077.0"
+  },
+  {
+    "bucket": "7.0",
+    "count": "61",
+    "border": "2398.0"
+  },
+  {
+    "bucket": "8.0",
+    "count": "107",
+    "border": "2719.0"
+  },
+  {
+    "bucket": "9.0",
+    "count": "142",
+    "border": "3040.0"
+  },
+  {
+    "bucket": "10.0",
+    "count": "190",
+    "border": "3361.0"
+  },
+  {
+    "bucket": "11.0",
+    "count": "174",
+    "border": "3682.0"
+  },
+  {
+    "bucket": "12.0",
+    "count": "74",
+    "border": "4003.0"
+  },
+  {
+    "bucket": "13.0",
+    "count": "14",
+    "border": "4324.0"
+  },
+  {
+    "bucket": "14.0",
+    "count": "7",
+    "border": "4645.0"
+  },
+  {
+    "bucket": "15.0",
+    "count": "2",
+    "border": "4966.0"
+  },
+  {
+    "bucket": "16.0",
+    "count": "2",
+    "border": "5287.0"
+  },
+  {
+    "bucket": "17.0",
+    "count": "1",
+    "border": "5608.0"
+  },
+  {
+    "bucket": "18.0",
+    "count": "7",
+    "border": "5929.0"
+  },
+  {
+    "bucket": "19.0",
+    "count": "5",
+    "border": "6250.0"
+  },
+  {
+    "bucket": "20.0",
+    "count": "5",
+    "border": "6571.0"
+  },
+  {
+    "bucket": "21.0",
+    "count": "10",
+    "border": "6892.0"
+  },
+  {
+    "bucket": "22.0",
+    "count": "8",
+    "border": "7213.0"
+  },
+  {
+    "bucket": "23.0",
+    "count": "13",
+    "border": "7534.0"
+  },
+  {
+    "bucket": "24.0",
+    "count": "12",
+    "border": "7855.0"
+  },
+  {
+    "bucket": "25.0",
+    "count": "13",
+    "border": "8176.0"
+  },
+  {
+    "bucket": "26.0",
+    "count": "16",
+    "border": "8497.0"
+  },
+  {
+    "bucket": "27.0",
+    "count": "22",
+    "border": "8818.0"
+  },
+  {
+    "bucket": "28.0",
+    "count": "22",
+    "border": "9139.0"
+  },
+  {
+    "bucket": "29.0",
+    "count": "8",
+    "border": "9460.0"
+  },
+  {
+    "bucket": "30.0",
+    "count": "7",
+    "border": "9781.0"
+  },
+  {
+    "bucket": "31.0",
+    "count": "6",
+    "border": "10102.0"
+  },
+  {
+    "bucket": "32.0",
+    "count": "4",
+    "border": "10423.0"
+  },
+  {
+    "bucket": "33.0",
+    "count": "1",
+    "border": "10744.0"
+  },
+  {
+    "bucket": "34.0",
+    "count": "1",
+    "border": "11065.0"
+  },
+  {
+    "bucket": "35.0",
+    "count": "1",
+    "border": "11386.0"
+  },
+  {
+    "bucket": "38.0",
+    "count": "1",
+    "border": "11707.0"
+  }
+]
