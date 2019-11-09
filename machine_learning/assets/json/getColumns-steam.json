@@ -1,0 +1,15 @@
+[
+  "gold_per_min",
+  "level",
+  "leaver_status",
+  "xp_per_min",
+  "radiant_score",
+  "gold_spent",
+  "deaths",
+  "denies",
+  "hero_damage",
+  "tower_damage",
+  "last_hits",
+  "hero_healing",
+  "duration"
+]

@@ -24,8 +24,8 @@ dependencies:
   syncfusion_flutter_charts: ^17.3.14
   flutter_range_slider: ^1.4.0
   splashscreen: ^1.2.0
-  expandable: ^3.0.1
-
+  provider: ^3.1.0+1
+  sliding_up_panel: ^0.3.6
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -49,8 +49,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/stage.json
-   - assets/images/
+    - assets/json/
+    - assets/images/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -65,10 +65,18 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Corben
+    - family: Montserrat Regular
       fonts:
-        - asset: assets/fonts/Corben-Regular.ttf
-        - asset: assets/fonts/Corben-Bold.ttf
+        - asset: assets/fonts/Montserrat-Regular.ttf
+    - family: Montserrat Light
+      fonts:
+        - asset: assets/fonts/Montserrat-Light.ttf
+    - family: Montserrat Medium
+      fonts:
+        - asset: assets/fonts/Montserrat-Medium.ttf
+    - family: Montserrat Bold
+      fonts:
+        - asset: assets/fonts/Montserrat-Bold.ttf
 
   #   - family: Trajan Pro
   #     fonts:

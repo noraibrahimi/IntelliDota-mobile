@@ -1,0 +1,14 @@
+[
+  "gold",
+  "gold_per_min",
+  "xp_per_min",
+  "kills",
+  "deaths",
+  "assists",
+  "denies",
+  "last_hits",
+  "hero_damage",
+  "hero_healing",
+  "tower_damage",
+  "level"
+]
