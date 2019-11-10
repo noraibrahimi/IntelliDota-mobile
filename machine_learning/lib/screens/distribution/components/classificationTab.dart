@@ -18,14 +18,14 @@ class ClassificationTab extends StatefulWidget {
 }
 
 class _ClassificationTabState extends State<ClassificationTab> {
-  List<charts.Series<Stage, String>> _seriesData = [];
+  List<charts.Series<Stage, num>> _seriesData = [];
   List<Stage> myData = [];
   double rating = 0;
   int _currentButton = 0;
 
   _generateData(myData) {
     _seriesData.add(charts.Series(
-        domainFn: (Stage stage, _) => stage.bucket.toString(),
+        domainFn: (Stage stage, _) => stage.bucket,
         measureFn: (Stage stage, _) => stage.count,
         data: myData,
         id: "Stage"));
@@ -49,10 +49,24 @@ class _ClassificationTabState extends State<ClassificationTab> {
           vertical: ScreenUtil.getInstance().setHeight(70),
           horizontal: ScreenUtil.getInstance().setHeight(50)),
       child: Center(
-        child: charts.BarChart(
+        child: charts.LineChart(
           _seriesData,
           animate: true,
           animationDuration: Duration(milliseconds: 500),
+          domainAxis: new charts.NumericAxisSpec(
+              renderSpec: charts.GridlineRendererSpec(
+                  labelStyle: new charts.TextStyleSpec(
+                      color: charts.Color.fromHex(code: AppColors.chartSecondaryColor)),
+                  lineStyle: charts.LineStyleSpec(
+                    color: charts.Color.fromHex(code: AppColors.chartSecondaryColor),
+                  ))),
+          primaryMeasureAxis: charts.NumericAxisSpec(
+              renderSpec: charts.GridlineRendererSpec(
+                  labelStyle: new charts.TextStyleSpec(
+                      color: charts.Color.fromHex(code: AppColors.chartSecondaryColor)),
+                  lineStyle: charts.LineStyleSpec(
+                      color: charts.Color.fromHex(
+                          code: AppColors.chartSecondaryColor)))),
         ),
       ),
     );

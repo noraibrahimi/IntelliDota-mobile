@@ -8,8 +8,8 @@ part of 'stage.dart';
 
 Stage _$StageFromJson(Map<String, dynamic> json) {
   return Stage(
-    bucket: double.parse(json['bucket']) as double,
-    count: double.parse(json['count']) as double,
+    bucket: (json['bucket'] as num)?.toDouble(),
+    count: (json['count'] as num)?.toDouble(),
   );
 }
 

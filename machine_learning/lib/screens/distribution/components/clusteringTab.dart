@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:machine_learning/models/stage.dart';
+import 'package:machine_learning/models/groupAndCount.dart';
 import 'package:machine_learning/providers/appState.dart';
 import 'package:machine_learning/utils/colors.dart';
 import 'package:machine_learning/utils/strings.dart';
@@ -18,33 +16,22 @@ class ClusteringTab extends StatefulWidget {
 }
 
 class _ClusteringTabState extends State<ClusteringTab> {
-  List<charts.Series<Stage, num>> _seriesData = [];
-  List<Stage> myData = [];
+  List<charts.Series<GroupAndCount, num>> _seriesData = [];
   double rating = 0;
-  int _currentButton = 0;
+  int _currentButton = -1;
 
   _generateData(myData) {
     _seriesData.add(charts.Series(
-        domainFn: (Stage stage, _) => stage.bucket,
-        measureFn: (Stage stage, _) => stage.count,
-        colorFn: (_, __) => charts.Color.fromHex(code: '#f2f2f2'),
+        domainFn: (GroupAndCount groupAndCount, _) => groupAndCount.bucket,
+        measureFn: (GroupAndCount groupAndCount, _) => groupAndCount.count,
+        seriesColor: charts.Color.white,
         data: myData,
         id: "Stage"));
   }
 
-  Future<List<Stage>> getData() async {
-    String data = await DefaultAssetBundle.of(context)
-        .loadString("assets/json/stage.json");
-    List mapData = await jsonDecode(data);
-    mapData.forEach((data) {
-      myData.add(Stage.fromMappedJson(data));
-    });
-    return myData;
-  }
-
-  Widget _buildChart(BuildContext context, List<Stage> stageData) {
-    myData = stageData;
-    _generateData(myData);
+  Widget _buildChart(
+      BuildContext context, List<GroupAndCount> groupAndCountData) {
+    _generateData(Provider.of<AppState>(context).kaggleGroupAndCount);
     return Container(
         margin: EdgeInsets.symmetric(
             vertical: ScreenUtil.getInstance().setHeight(70),
@@ -57,14 +44,17 @@ class _ClusteringTabState extends State<ClusteringTab> {
             domainAxis: new charts.NumericAxisSpec(
                 renderSpec: charts.GridlineRendererSpec(
                     labelStyle: new charts.TextStyleSpec(
-                        color: charts.Color.fromHex(code: AppColors.chartSecondaryColor)),
+                        color: charts.Color.fromHex(
+                            code: AppColors.chartSecondaryColor)),
                     lineStyle: charts.LineStyleSpec(
-              color: charts.Color.fromHex(code: AppColors.chartSecondaryColor),
-            ))),
+                      color: charts.Color.fromHex(
+                          code: AppColors.chartSecondaryColor),
+                    ))),
             primaryMeasureAxis: charts.NumericAxisSpec(
                 renderSpec: charts.GridlineRendererSpec(
                     labelStyle: new charts.TextStyleSpec(
-                        color: charts.Color.fromHex(code: AppColors.chartSecondaryColor)),
+                        color: charts.Color.fromHex(
+                            code: AppColors.chartSecondaryColor)),
                     lineStyle: charts.LineStyleSpec(
                         color: charts.Color.fromHex(
                             code: AppColors.chartSecondaryColor)))),
@@ -73,36 +63,47 @@ class _ClusteringTabState extends State<ClusteringTab> {
   }
 
   Widget _buildBody(context) {
+    AppState appState = Provider.of<AppState>(context);
     return SafeArea(
       child: Container(
         margin: EdgeInsets.symmetric(
             horizontal: ScreenUtil.getInstance().setHeight(20)),
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: FutureBuilder<List<Stage>>(
-                future: getData(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Text("No data yet!"),
-                    );
-                  } else {
-                    List<Stage> stageData = snapshot.data;
-                    return _buildChart(context, stageData);
-                  }
-                },
-              ),
-            ),
-            Divider(
-              color: Color(0xff57616f),
-            ),
+            _currentButton != -1
+                ? Expanded(
+                    child: StreamBuilder<List<GroupAndCount>>(
+                      stream: Stream.fromFuture(appState.getGroupAndCount(
+                          type: tableType.kaggle,
+                          attribute:
+                              appState.kaggleColumnNames[_currentButton])),
+                      builder: (context, snapshot) {
+                        print(">>>>>>>>>>> $snapshot");
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: Text("No data yet!"),
+                          );
+                        } else {
+                          print("heeere");
+                          List<GroupAndCount> groupAndCount = snapshot.data;
+                          return _buildChart(context, groupAndCount);
+                        }
+                      },
+                    ),
+                  )
+                : Container(),
+            _currentButton != -1
+                ? Divider(
+                    color: Color(0xff57616f),
+                  )
+                : Container(),
             Expanded(
               child: Container(
                 constraints: BoxConstraints(
                     maxHeight: ScreenUtil.getInstance().setHeight(1000)),
                 margin: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil.getInstance().setHeight(50)),
+                    horizontal: ScreenUtil.getInstance().setHeight(50),
+                    vertical: ScreenUtil.getInstance().setHeight(20)),
                 child: GridView.builder(
                     primary: false,
                     scrollDirection: Axis.vertical,
@@ -149,9 +150,8 @@ class _ClusteringTabState extends State<ClusteringTab> {
   Widget listItem({index, title, color, isSelected}) {
     return GestureDetector(
       onTap: () {
-        setState(() {
-          _currentButton = index;
-        });
+        _currentButton = index;
+        setState(() {});
       },
       child: Container(
         width: double.infinity,
