@@ -50,18 +50,26 @@ class _ClusteringTabState extends State<ClusteringTab> {
             vertical: ScreenUtil.getInstance().setHeight(70),
             horizontal: ScreenUtil.getInstance().setHeight(50)),
         child: Center(
-            child: charts.LineChart(
-          _seriesData,
-          animate: true,
-          animationDuration: Duration(milliseconds: 500),
-          domainAxis: new charts.OrdinalAxisSpec(
-            renderSpec: charts.GridlineRendererSpec(
-                lineStyle: charts.LineStyleSpec(
-              color: charts.MaterialPalette.white,
-              thickness: -1,
-            )),
+          child: charts.LineChart(
+            _seriesData,
+            animate: true,
+            animationDuration: Duration(milliseconds: 500),
+            domainAxis: new charts.NumericAxisSpec(
+                renderSpec: charts.GridlineRendererSpec(
+                    labelStyle: new charts.TextStyleSpec(
+                        color: charts.Color.fromHex(code: AppColors.chartSecondaryColor)),
+                    lineStyle: charts.LineStyleSpec(
+              color: charts.Color.fromHex(code: AppColors.chartSecondaryColor),
+            ))),
+            primaryMeasureAxis: charts.NumericAxisSpec(
+                renderSpec: charts.GridlineRendererSpec(
+                    labelStyle: new charts.TextStyleSpec(
+                        color: charts.Color.fromHex(code: AppColors.chartSecondaryColor)),
+                    lineStyle: charts.LineStyleSpec(
+                        color: charts.Color.fromHex(
+                            code: AppColors.chartSecondaryColor)))),
           ),
-        )));
+        ));
   }
 
   Widget _buildBody(context) {

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:machine_learning/screens/distribution/components/classificationTab.dart';
 import 'package:machine_learning/screens/distribution/components/clusteringTab.dart';
 import 'package:machine_learning/utils/colors.dart';
+import 'package:machine_learning/utils/strings.dart';
 
 class DistributionScreen extends StatefulWidget {
   @override
@@ -31,10 +32,13 @@ class _DistributionScreenState extends State<DistributionScreen> {
                   ),
                   title: Text(
                     "IntelliDOTA",
-                    style:
-                        TextStyle(fontSize: ScreenUtil.getInstance().setSp(70)),
+                    style: TextStyle(
+                        fontSize: ScreenUtil.getInstance().setSp(70),
+                        fontFamily: AppStrings.fontBold),
                   ),
                   bottom: TabBar(
+                    indicatorColor:
+                        Color(0xff57616f),
                     tabs: [
                       Tab(
                         text: "Classification",
