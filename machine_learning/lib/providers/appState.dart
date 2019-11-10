@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,6 +12,26 @@ import 'package:machine_learning/utils/appConfig.dart';
 enum tableType { steam, kaggle }
 
 class AppState with ChangeNotifier {
+  List<charts.Series<GroupAndCount, num>> _kaggleSeriesData = [];
+
+  List<charts.Series<GroupAndCount, num>> get kaggleSeriesData =>
+      _kaggleSeriesData;
+
+  set kaggleSeriesData(List<charts.Series<GroupAndCount, num>> value) {
+    _kaggleSeriesData = value;
+    notifyListeners();
+  }
+
+  List<charts.Series<GroupAndCount, num>> _steamSeriesData = [];
+
+  List<charts.Series<GroupAndCount, num>> get steamSeriesData =>
+      _steamSeriesData;
+
+  set steamSeriesData(List<charts.Series<GroupAndCount, num>> value) {
+    _steamSeriesData = value;
+    notifyListeners();
+  }
+
   List _kaggleColumnNames = [];
   List _steamColumnNames = [];
   List<GroupAndCount> _kaggleGroupAndCount = [];
@@ -60,15 +81,12 @@ class AppState with ChangeNotifier {
       AppConfig.of(navigatorKey.currentContext).apiBaseUrl +
           "/getGroupAndCount?kind=${type.toString().split('.').last}&attribute=$attribute&partitions=4",
     );
-
     List info = jsonDecode(response.body);
-    print("CALLED AGAIN");
     type == tableType.kaggle
         ? _kaggleGroupAndCount =
             info.map((item) => GroupAndCount.fromMappedJson(item)).toList()
         : _steamGroupAndCount =
             info.map((item) => GroupAndCount.fromMappedJson(item)).toList();
-
     return type == tableType.kaggle
         ? _kaggleGroupAndCount
         : _steamGroupAndCount;

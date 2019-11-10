@@ -4,6 +4,7 @@ import 'package:machine_learning/providers/appState.dart';
 import 'package:machine_learning/screens/components/drawer.dart';
 import 'package:machine_learning/screens/components/mainBackground.dart';
 import 'package:machine_learning/utils/colors.dart';
+import 'package:machine_learning/utils/strings.dart';
 import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -60,12 +61,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   "IntelliDOTA",
                   style: TextStyle(
                       color: Colors.white,
+                      fontFamily: AppStrings.fontMedium,
                       fontSize: ScreenUtil.getInstance().setSp(150)),
                 ),
                 Text(
                   "MËSIMI I MAKINËS",
                   style: TextStyle(
-                      color: Colors.white,
+                      color: AppColors.secondaryColor,
+                      fontFamily: AppStrings.fontMedium,
                       fontSize: ScreenUtil.getInstance().setSp(50)),
                 )
               ],

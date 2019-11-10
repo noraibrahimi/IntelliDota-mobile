@@ -2,6 +2,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:machine_learning/models/groupAndCount.dart';
 import 'package:machine_learning/providers/appState.dart';
 import 'package:machine_learning/utils/colors.dart';
@@ -16,21 +17,30 @@ class ClusteringTab extends StatefulWidget {
 }
 
 class _ClusteringTabState extends State<ClusteringTab> {
-  List<charts.Series<GroupAndCount, num>> _seriesData = [];
   double rating = 0;
   int _currentButton = -1;
+  bool _loading = false;
+  String textSelected = "";
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      Provider.of<AppState>(context).kaggleSeriesData = [];
+      setState(() {});
+    });
+  }
 
   _generateData(myData) {
-    _seriesData.add(charts.Series(
+    Provider.of<AppState>(context).kaggleSeriesData.add(charts.Series(
         domainFn: (GroupAndCount groupAndCount, _) => groupAndCount.bucket,
         measureFn: (GroupAndCount groupAndCount, _) => groupAndCount.count,
         seriesColor: charts.Color.white,
         data: myData,
-        id: "Stage"));
+        id: "GroupAndCount"));
   }
 
-  Widget _buildChart(
-      BuildContext context, List<GroupAndCount> groupAndCountData) {
+  Widget _buildChart(BuildContext context) {
     _generateData(Provider.of<AppState>(context).kaggleGroupAndCount);
     return Container(
         margin: EdgeInsets.symmetric(
@@ -38,9 +48,27 @@ class _ClusteringTabState extends State<ClusteringTab> {
             horizontal: ScreenUtil.getInstance().setHeight(50)),
         child: Center(
           child: charts.LineChart(
-            _seriesData,
+            Provider.of<AppState>(context).kaggleSeriesData,
             animate: true,
             animationDuration: Duration(milliseconds: 500),
+//            behaviors: [
+//              charts.DatumLegend(
+//                  entryTextStyle: charts.TextStyleSpec(
+//                      color: charts.MaterialPalette.purple.shadeDefault,
+//                      fontSize: 15))
+//            ],
+//            selectionModels: [
+//              charts.SelectionModelConfig(
+//                  changedListener: (charts.SelectionModel model) {
+//                    if(model.hasDatumSelection) {
+//                      setState(() {
+//                        render.text = "N";
+//                      });
+//                      debugPrint(textSelected);
+//                    }
+//                  }
+//              )
+//            ],
             domainAxis: new charts.NumericAxisSpec(
                 renderSpec: charts.GridlineRendererSpec(
                     labelStyle: new charts.TextStyleSpec(
@@ -63,81 +91,74 @@ class _ClusteringTabState extends State<ClusteringTab> {
   }
 
   Widget _buildBody(context) {
-    AppState appState = Provider.of<AppState>(context);
     return SafeArea(
-      child: Container(
-        margin: EdgeInsets.symmetric(
-            horizontal: ScreenUtil.getInstance().setHeight(20)),
-        child: Column(
-          children: <Widget>[
-            _currentButton != -1
-                ? Expanded(
-                    child: StreamBuilder<List<GroupAndCount>>(
-                      stream: Stream.fromFuture(appState.getGroupAndCount(
-                          type: tableType.kaggle,
-                          attribute:
-                              appState.kaggleColumnNames[_currentButton])),
-                      builder: (context, snapshot) {
-                        print(">>>>>>>>>>> $snapshot");
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: Text("No data yet!"),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.symmetric(
+                horizontal: ScreenUtil.getInstance().setHeight(20)),
+            child: Column(
+              children: <Widget>[
+                Expanded(child: _buildChart(context)),
+                Divider(
+                  color: Color(0xff57616f),
+                ),
+                Expanded(
+                  child: Container(
+                    constraints: BoxConstraints(
+                        maxHeight: ScreenUtil.getInstance().setHeight(1000)),
+                    margin: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil.getInstance().setHeight(50),
+                        vertical: ScreenUtil.getInstance().setHeight(20)),
+                    child: GridView.builder(
+                        primary: false,
+                        scrollDirection: Axis.vertical,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio:
+                              ScreenUtil.getInstance().setWidth(650) /
+                                  (MediaQuery.of(context).size.height / 4),
+                        ),
+                        itemCount: Provider.of<AppState>(context)
+                            .kaggleColumnNames
+                            .length,
+                        itemBuilder: (context, index) {
+                          return GridTile(
+                            child: listItem(
+                                index: index,
+                                title:
+                                    "${Provider.of<AppState>(context).kaggleColumnNames[index]}",
+                                color: AppColors()
+                                    .makeColor(
+                                        index,
+                                        Provider.of<AppState>(context)
+                                            .kaggleColumnNames
+                                            .length
+                                            .toDouble(),
+                                        0.5,
+                                        0.5)
+                                    .toColor()
+                                    .withOpacity(0.3),
+                                isSelected: false),
                           );
-                        } else {
-                          print("heeere");
-                          List<GroupAndCount> groupAndCount = snapshot.data;
-                          return _buildChart(context, groupAndCount);
-                        }
-                      },
-                    ),
-                  )
-                : Container(),
-            _currentButton != -1
-                ? Divider(
-                    color: Color(0xff57616f),
-                  )
-                : Container(),
-            Expanded(
-              child: Container(
-                constraints: BoxConstraints(
-                    maxHeight: ScreenUtil.getInstance().setHeight(1000)),
-                margin: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil.getInstance().setHeight(50),
-                    vertical: ScreenUtil.getInstance().setHeight(20)),
-                child: GridView.builder(
-                    primary: false,
-                    scrollDirection: Axis.vertical,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: ScreenUtil.getInstance().setWidth(650) /
-                          (MediaQuery.of(context).size.height / 4),
-                    ),
-                    itemCount:
-                        Provider.of<AppState>(context).kaggleColumnNames.length,
-                    itemBuilder: (context, index) {
-                      return GridTile(
-                        child: listItem(
-                            index: index,
-                            title:
-                                "${Provider.of<AppState>(context).kaggleColumnNames[index]}",
-                            color: AppColors()
-                                .makeColor(
-                                    index,
-                                    Provider.of<AppState>(context)
-                                        .kaggleColumnNames
-                                        .length
-                                        .toDouble(),
-                                    0.5,
-                                    0.5)
-                                .toColor()
-                                .withOpacity(0.3),
-                            isSelected: false),
-                      );
-                    }),
-              ),
+                        }),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.5),
+            child: _loading
+                ? Center(
+                    child: SpinKitRing(
+                      size: 80,
+                      color: Colors.white,
+                    ),
+                  )
+                : SizedBox(),
+          )
+        ],
       ),
     );
   }
@@ -149,8 +170,24 @@ class _ClusteringTabState extends State<ClusteringTab> {
 
   Widget listItem({index, title, color, isSelected}) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
+        setState(() {
+          _loading = true;
+        });
         _currentButton = index;
+        Provider.of<AppState>(context)
+            .getGroupAndCount(
+                type: tableType.kaggle,
+                attribute: Provider.of<AppState>(context)
+                    .kaggleColumnNames[_currentButton])
+            .then((_) {
+          if (_currentButton != -1)
+            Provider.of<AppState>(context).kaggleSeriesData = [];
+
+          setState(() {
+            _loading = false;
+          });
+        });
         setState(() {});
       },
       child: Container(

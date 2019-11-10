@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 class AppColors {
  static Color defaultColor = Color(0xff252935);
  static Color minimalColor = Color(0xff1BD6EB);
+ static Color secondaryColor = Color(0xff57616f);
  static String chartSecondaryColor = "#57616f";
+
 
  HSLColor makeColor(int colorIndex, double colorNumber, double colorSaturation,
      double colorBrightness) {

@@ -1,76 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:machine_learning/utils/colors.dart';
 
 class MainBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xff083142),
+        backgroundColor: AppColors.defaultColor,
         body: Stack(
           children: <Widget>[
-            Positioned.fill(
-              child: Opacity(
-                opacity: 0.7,
-                child: Container(
-                  decoration: new BoxDecoration(
-                    image: DecorationImage(
-                        alignment: Alignment(-0.91, 0),
-                        image: AssetImage('assets/images/background.png'),
-                        fit: BoxFit.fitHeight),
+            Column(
+              children: <Widget>[
+                Spacer(),
+                Opacity(
+                  opacity: 0.7,
+                  child: Container(
+                    height: ScreenUtil.getInstance().setHeight(1300),
+                    width: 1200,
+                    margin: EdgeInsets.only(left: ScreenUtil.getInstance().setHeight(80)),
+                    decoration: new BoxDecoration(
+                      image: DecorationImage(
+                         alignment: Alignment(-0.5, 0),
+                        image: AssetImage('assets/images/homeBack.png'),
+
+                        //fit: BoxFit.scaleDown
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: double.infinity / 2,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment(0, 0.4),
-                    stops: [
-                      0,
-                      1
-                    ],
-                    colors: [
-                      Color(0x2EECDE).withOpacity(0.5),
-                      Colors.white.withOpacity(0)
-                    ]),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: double.infinity / 2,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment(0, 0.6),
-                    stops: [
-                      0,
-                      0.9
-                    ],
-                    colors: [
-                      Color(0x073140).withOpacity(0.2),
-                      Colors.white.withOpacity(0)
-                    ]),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: double.infinity / 2,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.bottomCenter,
-                    end: Alignment(0, 0.3),
-                    stops: [
-                      0,
-                      0.1
-                    ],
-                    colors: [
-                      Color(0x073140).withOpacity(0),
-                      Colors.white.withOpacity(0)
-                    ]),
-              ),
+              ],
             ),
           ],
         ));

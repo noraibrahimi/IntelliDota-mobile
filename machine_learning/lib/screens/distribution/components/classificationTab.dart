@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:machine_learning/models/stage.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:machine_learning/models/groupAndCount.dart';
 import 'package:machine_learning/providers/appState.dart';
 import 'package:machine_learning/utils/colors.dart';
 import 'package:machine_learning/utils/strings.dart';
@@ -18,52 +17,52 @@ class ClassificationTab extends StatefulWidget {
 }
 
 class _ClassificationTabState extends State<ClassificationTab> {
-  List<charts.Series<Stage, num>> _seriesData = [];
-  List<Stage> myData = [];
   double rating = 0;
-  int _currentButton = 0;
+  int _currentButton = -1;
+  bool _loading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      Provider.of<AppState>(context).steamSeriesData = [];
+    });
+  }
 
   _generateData(myData) {
-    _seriesData.add(charts.Series(
-        domainFn: (Stage stage, _) => stage.bucket,
-        measureFn: (Stage stage, _) => stage.count,
+    Provider.of<AppState>(context).steamSeriesData.add(charts.Series(
+        domainFn: (GroupAndCount groupAndCount, _) => groupAndCount.bucket,
+        measureFn: (GroupAndCount groupAndCount, _) => groupAndCount.count,
         data: myData,
-        id: "Stage"));
+        seriesColor: charts.Color.white,
+        id: "GroupAndCount"));
   }
 
-  Future<List<Stage>> getData() async {
-    String data = await DefaultAssetBundle.of(context)
-        .loadString("assets/json/stage.json");
-    List mapData = await jsonDecode(data);
-    mapData.forEach((data) {
-      myData.add(Stage.fromMappedJson(data));
-    });
-    return myData;
-  }
-
-  Widget _buildChart(BuildContext context, List<Stage> stageData) {
-    myData = stageData;
-    _generateData(myData);
+  Widget _buildChart(BuildContext context) {
+    _generateData(Provider.of<AppState>(context).steamGroupAndCount);
     return Container(
       margin: EdgeInsets.symmetric(
           vertical: ScreenUtil.getInstance().setHeight(70),
           horizontal: ScreenUtil.getInstance().setHeight(50)),
       child: Center(
         child: charts.LineChart(
-          _seriesData,
+          Provider.of<AppState>(context).steamSeriesData,
           animate: true,
           animationDuration: Duration(milliseconds: 500),
           domainAxis: new charts.NumericAxisSpec(
               renderSpec: charts.GridlineRendererSpec(
                   labelStyle: new charts.TextStyleSpec(
-                      color: charts.Color.fromHex(code: AppColors.chartSecondaryColor)),
+                      color: charts.Color.fromHex(
+                          code: AppColors.chartSecondaryColor)),
                   lineStyle: charts.LineStyleSpec(
-                    color: charts.Color.fromHex(code: AppColors.chartSecondaryColor),
+                    color: charts.Color.fromHex(
+                        code: AppColors.chartSecondaryColor),
                   ))),
           primaryMeasureAxis: charts.NumericAxisSpec(
               renderSpec: charts.GridlineRendererSpec(
                   labelStyle: new charts.TextStyleSpec(
-                      color: charts.Color.fromHex(code: AppColors.chartSecondaryColor)),
+                      color: charts.Color.fromHex(
+                          code: AppColors.chartSecondaryColor)),
                   lineStyle: charts.LineStyleSpec(
                       color: charts.Color.fromHex(
                           code: AppColors.chartSecondaryColor)))),
@@ -74,69 +73,72 @@ class _ClassificationTabState extends State<ClassificationTab> {
 
   Widget _buildBody(context) {
     return SafeArea(
-      child: Container(
-        margin: EdgeInsets.symmetric(
-            horizontal: ScreenUtil.getInstance().setHeight(20)),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: FutureBuilder<List<Stage>>(
-                future: getData(),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Text("No data yet!"),
-                    );
-                  } else {
-                    List<Stage> stageData = snapshot.data;
-                    return _buildChart(context, stageData);
-                  }
-                },
-              ),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.symmetric(
+                horizontal: ScreenUtil.getInstance().setHeight(20)),
+            child: Column(
+              children: <Widget>[
+                Expanded(child: _buildChart(context)),
+                Divider(
+                  color: Color(0xff57616f),
+                ),
+                Expanded(
+                  child: Container(
+                    constraints: BoxConstraints(
+                        maxHeight: ScreenUtil.getInstance().setHeight(1000)),
+                    margin: EdgeInsets.symmetric(
+                        horizontal: ScreenUtil.getInstance().setHeight(50)),
+                    child: GridView.builder(
+                        primary: false,
+                        scrollDirection: Axis.vertical,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio:
+                              ScreenUtil.getInstance().setWidth(650) /
+                                  (MediaQuery.of(context).size.height / 4),
+                        ),
+                        itemCount: Provider.of<AppState>(context)
+                            .steamColumnNames
+                            .length,
+                        itemBuilder: (context, index) {
+                          return GridTile(
+                            child: listItem(
+                                index: index,
+                                title:
+                                    "${Provider.of<AppState>(context).steamColumnNames[index]}",
+                                color: AppColors()
+                                    .makeColor(
+                                        index,
+                                        Provider.of<AppState>(context)
+                                            .steamColumnNames
+                                            .length
+                                            .toDouble(),
+                                        0.5,
+                                        0.5)
+                                    .toColor()
+                                    .withOpacity(0.3),
+                                isSelected: false),
+                          );
+                        }),
+                  ),
+                ),
+              ],
             ),
-            Divider(
-              color: Color(0xff57616f),
-            ),
-            Expanded(
-              child: Container(
-                constraints: BoxConstraints(
-                    maxHeight: ScreenUtil.getInstance().setHeight(1000)),
-                margin: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil.getInstance().setHeight(50)),
-                child: GridView.builder(
-                    primary: false,
-                    scrollDirection: Axis.vertical,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: ScreenUtil.getInstance().setWidth(650) /
-                          (MediaQuery.of(context).size.height / 4),
+          ),
+          Container(
+            color: Colors.black.withOpacity(0.5),
+            child: _loading
+                ? Center(
+                    child: SpinKitRing(
+                      size: 80,
+                      color: Colors.white,
                     ),
-                    itemCount:
-                        Provider.of<AppState>(context).steamColumnNames.length,
-                    itemBuilder: (context, index) {
-                      return GridTile(
-                        child: listItem(
-                            index: index,
-                            title:
-                                "${Provider.of<AppState>(context).steamColumnNames[index]}",
-                            color: AppColors()
-                                .makeColor(
-                                    index,
-                                    Provider.of<AppState>(context)
-                                        .steamColumnNames
-                                        .length
-                                        .toDouble(),
-                                    0.5,
-                                    0.5)
-                                .toColor()
-                                .withOpacity(0.3),
-                            isSelected: false),
-                      );
-                    }),
-              ),
-            ),
-          ],
-        ),
+                  )
+                : SizedBox(),
+          )
+        ],
       ),
     );
   }
@@ -150,8 +152,23 @@ class _ClassificationTabState extends State<ClassificationTab> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _currentButton = index;
+          _loading = true;
         });
+        _currentButton = index;
+        Provider.of<AppState>(context)
+            .getGroupAndCount(
+                type: tableType.steam,
+                attribute: Provider.of<AppState>(context)
+                    .steamColumnNames[_currentButton])
+            .then((_) {
+          if (_currentButton != -1)
+            Provider.of<AppState>(context).steamSeriesData = [];
+
+          setState(() {
+            _loading = false;
+          });
+        });
+        setState(() {});
       },
       child: Container(
         width: double.infinity,
