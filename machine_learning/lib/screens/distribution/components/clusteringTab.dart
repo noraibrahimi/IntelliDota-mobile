@@ -9,6 +9,8 @@ import 'package:machine_learning/utils/colors.dart';
 import 'package:machine_learning/utils/strings.dart';
 import 'package:provider/provider.dart';
 
+import 'customCircleSymbolRenderer.dart';
+
 class ClusteringTab extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -21,6 +23,8 @@ class _ClusteringTabState extends State<ClusteringTab> {
   int _currentButton = -1;
   bool _loading = false;
   String textSelected = "";
+  List<String> text = [];
+  List<String> upperLowerBounds = [];
 
   @override
   void initState() {
@@ -31,13 +35,16 @@ class _ClusteringTabState extends State<ClusteringTab> {
     });
   }
 
+  CustomCircleSymbolRenderer render = new CustomCircleSymbolRenderer();
+
   _generateData(myData) {
     Provider.of<AppState>(context).kaggleSeriesData.add(charts.Series(
-        domainFn: (GroupAndCount groupAndCount, _) => groupAndCount.bucket,
-        measureFn: (GroupAndCount groupAndCount, _) => groupAndCount.count,
-        seriesColor: charts.Color.white,
-        data: myData,
-        id: "GroupAndCount"));
+          id: 'tets',
+          domainFn: (GroupAndCount groupAndCount, _) => groupAndCount.bucket,
+          measureFn: (GroupAndCount groupAndCount, _) => groupAndCount.count,
+          seriesColor: charts.Color.white,
+          data: myData,
+        ));
   }
 
   Widget _buildChart(BuildContext context) {
@@ -51,24 +58,18 @@ class _ClusteringTabState extends State<ClusteringTab> {
             Provider.of<AppState>(context).kaggleSeriesData,
             animate: true,
             animationDuration: Duration(milliseconds: 500),
-//            behaviors: [
-//              charts.DatumLegend(
-//                  entryTextStyle: charts.TextStyleSpec(
-//                      color: charts.MaterialPalette.purple.shadeDefault,
-//                      fontSize: 15))
-//            ],
-//            selectionModels: [
-//              charts.SelectionModelConfig(
-//                  changedListener: (charts.SelectionModel model) {
-//                    if(model.hasDatumSelection) {
-//                      setState(() {
-//                        render.text = "N";
-//                      });
-//                      debugPrint(textSelected);
-//                    }
-//                  }
-//              )
-//            ],
+            behaviors: [charts.LinePointHighlighter(symbolRenderer: render)],
+            selectionModels: [
+              charts.SelectionModelConfig(
+                  changedListener: (charts.SelectionModel model) {
+                if (model.hasDatumSelection) {
+                  setState(() {
+                    print(model.selectedDatum[0].index);
+                    render.text = upperLowerBounds[model.selectedDatum[0].index];
+                  });
+                }
+              })
+            ],
             domainAxis: new charts.NumericAxisSpec(
                 renderSpec: charts.GridlineRendererSpec(
                     labelStyle: new charts.TextStyleSpec(
@@ -173,6 +174,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
       onTap: () async {
         setState(() {
           _loading = true;
+          upperLowerBounds =[];
         });
         _currentButton = index;
         Provider.of<AppState>(context)
@@ -185,6 +187,9 @@ class _ClusteringTabState extends State<ClusteringTab> {
             Provider.of<AppState>(context).kaggleSeriesData = [];
 
           setState(() {
+            Provider.of<AppState>(context).kaggleGroupAndCount.forEach((item) {
+              upperLowerBounds.add('U: ${item.upperBound.toInt()}\nL: ${item.lowerBound.toInt()}');
+            });
             _loading = false;
           });
         });

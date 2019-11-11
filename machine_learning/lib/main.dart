@@ -9,7 +9,7 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 void main() {
   var configuredApp = new AppConfig(
-    apiBaseUrl: 'https://b196ea35.ngrok.io',
+    apiBaseUrl: 'http://192.168.0.240:5555',
     child: new MyApp(),
   );
   runApp(configuredApp);
