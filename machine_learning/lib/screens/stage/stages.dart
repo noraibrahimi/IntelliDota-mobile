@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:machine_learning/screens/distribution/components/classificationTab.dart';
-import 'package:machine_learning/screens/distribution/components/clusteringTab.dart';
+import 'package:machine_learning/screens/stage/components/classificationTab.dart';
+import 'package:machine_learning/screens/stage/components/clusteringTab.dart';
 import 'package:machine_learning/utils/colors.dart';
 import 'package:machine_learning/utils/strings.dart';
 
-class DistributionScreen extends StatefulWidget {
+class StagesScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _DistributionScreenState();
+    return _StagesScreenState();
   }
 }
 
-class _DistributionScreenState extends State<DistributionScreen> {
+class _StagesScreenState extends State<StagesScreen> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -37,8 +37,7 @@ class _DistributionScreenState extends State<DistributionScreen> {
                         fontFamily: AppStrings.fontBold),
                   ),
                   bottom: TabBar(
-                    indicatorColor:
-                        Color(0xff57616f),
+                    indicatorColor: Color(0xff57616f),
                     tabs: [
                       Tab(
                         text: "Klasifikim",

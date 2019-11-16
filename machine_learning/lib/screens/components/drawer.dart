@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:machine_learning/utils/colors.dart';
 import 'package:machine_learning/utils/routes.dart';
 
 class IntelliDrawer extends StatelessWidget {
@@ -56,8 +55,15 @@ class IntelliDrawer extends StatelessWidget {
         ),
         listItem(
             context: context,
-            title: "Distribution",
+            title: "Shpërndarja",
             routeName: RouteStrings.distributionScreen),
+        SizedBox(
+          height: ScreenUtil.getInstance().setHeight(10),
+        ),
+        listItem(
+            context: context,
+            title: "Fazat",
+            routeName: RouteStrings.stagesScreen),
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),
         ),
@@ -86,12 +92,15 @@ class IntelliDrawer extends StatelessWidget {
               "$title",
               style: TextStyle(color: Colors.white),
             ),
-            Icon(Icons.arrow_forward_ios,color: Colors.white,),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: Colors.white,
+            ),
           ],
         ),
         decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: Colors.white,width: 0.1)),
-          ),
+          border: Border(bottom: BorderSide(color: Colors.white, width: 0.1)),
+        ),
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:machine_learning/screens/distribution/distribution.dart';
 import 'package:machine_learning/screens/splashScreen/splashScreen.dart';
+import 'package:machine_learning/screens/stage/stages.dart';
 
 class RouteGenerator {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -12,6 +13,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SplashScreen());
       case RouteStrings.distributionScreen:
         return MaterialPageRoute(builder: (_) => DistributionScreen());
+      case RouteStrings.stagesScreen:
+        return MaterialPageRoute(builder: (_) => StagesScreen());
     }
   }
 }
@@ -19,4 +22,5 @@ class RouteGenerator {
 class RouteStrings {
   static const String rootScreen = '/';
   static const String distributionScreen = '/distribution';
+  static const String stagesScreen = '/stages';
 }

@@ -9,6 +9,8 @@ import 'package:machine_learning/utils/colors.dart';
 import 'package:machine_learning/utils/strings.dart';
 import 'package:provider/provider.dart';
 
+import 'customCircleSymbolRenderer.dart';
+
 class ClassificationTab extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -20,12 +22,16 @@ class _ClassificationTabState extends State<ClassificationTab> {
   double rating = 0;
   int _currentButton = -1;
   bool _loading = false;
+  List<String> upperLowerBounds = [];
+  CustomCircleSymbolRenderer render = new CustomCircleSymbolRenderer();
 
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
       Provider.of<AppState>(context).steamSeriesData = [];
+      Provider.of<AppState>(context).steamGroupAndCount = [];
+      setState(() {});
     });
   }
 
@@ -49,6 +55,17 @@ class _ClassificationTabState extends State<ClassificationTab> {
           Provider.of<AppState>(context).steamSeriesData,
           animate: true,
           animationDuration: Duration(milliseconds: 500),
+          behaviors: [charts.LinePointHighlighter(symbolRenderer: render)],
+          selectionModels: [
+            charts.SelectionModelConfig(
+                changedListener: (charts.SelectionModel model) {
+              if (model.hasDatumSelection) {
+                setState(() {
+                  render.text = upperLowerBounds[model.selectedDatum[0].index];
+                });
+              }
+            })
+          ],
           domainAxis: new charts.NumericAxisSpec(
               renderSpec: charts.GridlineRendererSpec(
                   labelStyle: new charts.TextStyleSpec(
@@ -153,6 +170,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
       onTap: () {
         setState(() {
           _loading = true;
+          upperLowerBounds = [];
         });
         _currentButton = index;
         Provider.of<AppState>(context)
@@ -165,6 +183,10 @@ class _ClassificationTabState extends State<ClassificationTab> {
             Provider.of<AppState>(context).steamSeriesData = [];
 
           setState(() {
+            Provider.of<AppState>(context).steamGroupAndCount.forEach((item) {
+              upperLowerBounds.add(
+                  'U: ${item.upperBound.toInt()}\nL: ${item.lowerBound.toInt()}');
+            });
             _loading = false;
           });
         });

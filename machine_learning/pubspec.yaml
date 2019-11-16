@@ -21,14 +21,11 @@ dependencies:
     sdk: flutter
   charts_flutter: ^0.8.1
   flutter_screenutil: ^0.5.3
-  syncfusion_flutter_charts: ^17.3.14
   flutter_range_slider: ^1.4.0
-  splashscreen: ^1.2.0
   provider: ^3.1.0+1
   sliding_up_panel: ^0.3.6
   flutter_sparkline: ^0.1.0
   flutter_spinkit: "^4.0.0"
-  fl_chart: ^0.4.1
 
 
   # The following adds the Cupertino Icons font to your application.

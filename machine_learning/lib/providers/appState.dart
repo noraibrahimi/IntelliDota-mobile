@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:machine_learning/main.dart';
 import 'package:machine_learning/models/groupAndCount.dart';
+import 'package:machine_learning/models/stage.dart';
 import 'package:machine_learning/utils/appConfig.dart';
 
 enum tableType { steam, kaggle }
@@ -90,5 +91,14 @@ class AppState with ChangeNotifier {
     return type == tableType.kaggle
         ? _kaggleGroupAndCount
         : _steamGroupAndCount;
+  }
+
+  Future<Stage> getStages({tableType type}) async {
+    http.Response response = await http.get(
+      AppConfig.of(navigatorKey.currentContext).apiBaseUrl +
+          "/getStages?kind=${type.toString().split('.').last}",
+    );
+    Map info = jsonDecode(response.body);
+    return Stage.fromMappedJson(info);
   }
 }

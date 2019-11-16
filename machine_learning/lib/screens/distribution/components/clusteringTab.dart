@@ -22,8 +22,6 @@ class _ClusteringTabState extends State<ClusteringTab> {
   double rating = 0;
   int _currentButton = -1;
   bool _loading = false;
-  String textSelected = "";
-  List<String> text = [];
   List<String> upperLowerBounds = [];
 
   @override
@@ -31,6 +29,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
     super.initState();
     Future.delayed(Duration.zero, () {
       Provider.of<AppState>(context).kaggleSeriesData = [];
+      Provider.of<AppState>(context).kaggleGroupAndCount = [];
       setState(() {});
     });
   }
@@ -64,7 +63,6 @@ class _ClusteringTabState extends State<ClusteringTab> {
                   changedListener: (charts.SelectionModel model) {
                 if (model.hasDatumSelection) {
                   setState(() {
-                    print(model.selectedDatum[0].index);
                     render.text = upperLowerBounds[model.selectedDatum[0].index];
                   });
                 }

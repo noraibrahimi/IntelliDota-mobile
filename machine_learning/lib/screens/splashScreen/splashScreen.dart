@@ -4,20 +4,28 @@ import 'package:machine_learning/providers/appState.dart';
 import 'package:machine_learning/screens/home.dart';
 import 'package:machine_learning/utils/colors.dart';
 import 'package:provider/provider.dart';
-import 'package:splashscreen/splashscreen.dart' as splash;
 
 class SplashScreen extends StatefulWidget {
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  State<StatefulWidget> createState() {
+    return SplashScreenState();
+  }
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
       await Provider.of<AppState>(context).getColumns(tableType.kaggle);
       await Provider.of<AppState>(context).getColumns(tableType.steam);
+    });
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(),
+          ));
     });
   }
 
@@ -27,18 +35,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
     return Scaffold(
         backgroundColor: AppColors.defaultColor,
-        body: _buildBody(context),
-       );
-  }
-
-  Widget _buildBody(context) {
-    return splash.SplashScreen(
-      seconds: 3,
-      navigateAfterSeconds: HomeScreen(),
-      image: Image.asset('assets/images/icon.png'),
-      backgroundColor: AppColors.defaultColor,
-      photoSize: ScreenUtil.getInstance().setHeight(300),
-      loaderColor: Color(0xff24D3DD),
-    );
+        body: Center(
+          child: Container(
+            height: ScreenUtil.getInstance().setHeight(777),
+            width: ScreenUtil.getInstance().setHeight(777),
+            child: Image.asset('assets/images/icon.png'),
+          ),
+        ));
   }
 }

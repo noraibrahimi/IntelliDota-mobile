@@ -8,12 +8,18 @@ part of 'stage.dart';
 
 Stage _$StageFromJson(Map<String, dynamic> json) {
   return Stage(
-    bucket: (json['bucket'] as num)?.toDouble(),
-    count: (json['count'] as num)?.toDouble(),
+    stage: (json as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          k,
+          (e as List)
+              ?.map((e) => e == null
+                  ? null
+                  : StageElements.fromMappedJson(e as Map<String, dynamic>))
+              ?.toList()),
+    ),
   );
 }
 
 Map<String, dynamic> _$StageToJson(Stage instance) => <String, dynamic>{
-      'bucket': instance.bucket,
-      'count': instance.count,
+      'stage': instance.stage,
     };
