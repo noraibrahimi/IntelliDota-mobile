@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:machine_learning/main.dart';
 import 'package:machine_learning/models/groupAndCount.dart';
+import 'package:machine_learning/models/sampleColumns.dart';
 import 'package:machine_learning/models/stage.dart';
 import 'package:machine_learning/utils/appConfig.dart';
 
@@ -102,15 +103,16 @@ class AppState with ChangeNotifier {
     return Stage.fromMappedJson(info);
   }
 
-  Future<List<Map<String, dynamic>>> getSample(
+  Future<List<Map<String,dynamic>>> getSample(
       {tableType type, double percentage}) async {
     http.Response response = await http.get(
       AppConfig.of(navigatorKey.currentContext).apiBaseUrl +
           "/getSample?kind=${type.toString().split('.').last}&percentage=$percentage",
     );
-    List info = jsonDecode(response.body);
-    Map<String,dynamic> mapData;
-    return info.map((item) => mapData.addEntries(item)).toList();
-
+    List<dynamic> info = jsonDecode(response.body);
+    List<SampleColumns> infoData =
+        info.map((item) => SampleColumns.fromMappedJson(item)).toList();
+    print(infoData.first.sampleElements);
+    return null;
   }
 }
