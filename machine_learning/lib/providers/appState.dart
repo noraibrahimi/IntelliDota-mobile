@@ -101,4 +101,16 @@ class AppState with ChangeNotifier {
     Map info = jsonDecode(response.body);
     return Stage.fromMappedJson(info);
   }
+
+  Future<List<Map<String, dynamic>>> getSample(
+      {tableType type, double percentage}) async {
+    http.Response response = await http.get(
+      AppConfig.of(navigatorKey.currentContext).apiBaseUrl +
+          "/getSample?kind=${type.toString().split('.').last}&percentage=$percentage",
+    );
+    List info = jsonDecode(response.body);
+    Map<String,dynamic> mapData;
+    return info.map((item) => mapData.addEntries(item)).toList();
+
+  }
 }

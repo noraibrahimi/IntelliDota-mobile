@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:machine_learning/utils/routes.dart';
+import 'package:machine_learning/utils/strings.dart';
 
 class IntelliDrawer extends StatelessWidget {
   @override
@@ -25,7 +26,8 @@ class IntelliDrawer extends StatelessWidget {
                   "IntelliDOTA",
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: ScreenUtil.getInstance().setSp(70)),
+                      fontSize: ScreenUtil.getInstance().setSp(70),
+                      fontFamily: AppStrings.fontMedium),
                 ),
               ),
               Align(
@@ -67,6 +69,13 @@ class IntelliDrawer extends StatelessWidget {
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),
         ),
+        listItem(
+            context: context,
+            title: "Tabela e të dhënave",
+            routeName: RouteStrings.sampleScreen),
+        SizedBox(
+          height: ScreenUtil.getInstance().setHeight(10),
+        ),
       ],
     );
   }
@@ -90,7 +99,8 @@ class IntelliDrawer extends StatelessWidget {
           children: <Widget>[
             Text(
               "$title",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(
+                  color: Colors.white, fontFamily: AppStrings.fontLight),
             ),
             Icon(
               Icons.arrow_forward_ios,
