@@ -2,9 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:machine_learning/models/clusteringColumns.dart';
-import 'package:machine_learning/models/stageElements.dart';
 import 'package:machine_learning/providers/appState.dart';
+import 'package:machine_learning/screens/tables/components/tileItem.dart';
 import 'package:provider/provider.dart';
 
 class ClusteringTab extends StatefulWidget {
@@ -15,7 +14,7 @@ class ClusteringTab extends StatefulWidget {
 }
 
 class _ClusteringTabState extends State<ClusteringTab> {
-  List<Map<String,dynamic>> sampleColumns;
+  List<Map<dynamic, dynamic>> sampleColumns = [];
 
   @override
   void initState() {
@@ -32,7 +31,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
 
   Widget _buildBody(context) {
     return SafeArea(
-      child: sampleColumns == null
+      child: sampleColumns.isEmpty
           ? Container(
               color: Colors.black.withOpacity(0.5),
               child: Center(
@@ -53,8 +52,19 @@ class _ClusteringTabState extends State<ClusteringTab> {
                     child: Container(
                       margin: EdgeInsets.symmetric(
                           horizontal: ScreenUtil.getInstance().setHeight(50)),
+                      child: ListView.builder(
+                        itemCount: sampleColumns[0].keys.length,
+                        itemBuilder: (context, index) {
+                          //  String key = classificationColumns[index].classificationElements.keys;
+                          return TileItem(
+                            num: index,
+                            keys: sampleColumns[0].keys.toList(),
+                            data: sampleColumns,
+                          );
+                        },
+                      ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -64,9 +74,5 @@ class _ClusteringTabState extends State<ClusteringTab> {
   @override
   Widget build(BuildContext context) {
     return _buildBody(context);
-  }
-
-  Widget listItem({index, title, List<StageElements> content, isSelected}) {
-    return Container();
   }
 }

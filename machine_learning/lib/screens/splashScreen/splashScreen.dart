@@ -37,8 +37,8 @@ class SplashScreenState extends State<SplashScreen> {
         backgroundColor: AppColors.defaultColor,
         body: Center(
           child: Container(
-            height: ScreenUtil.getInstance().setHeight(777),
-            width: ScreenUtil.getInstance().setHeight(777),
+            height: ScreenUtil.getInstance().setHeight(300),
+            width: ScreenUtil.getInstance().setHeight(300),
             child: Image.asset('assets/images/icon.png'),
           ),
         ));

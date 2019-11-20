@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:machine_learning/models/clusteringColumns.dart';
 import 'package:machine_learning/providers/appState.dart';
 import 'package:machine_learning/screens/tables/components/tileItem.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +14,7 @@ class ClassificationTab extends StatefulWidget {
 }
 
 class _ClassificationTabState extends State<ClassificationTab> {
-  List<Map<String,dynamic>> sampleColumns;
+  List<Map<dynamic, dynamic>> sampleColumns = [];
 
   @override
   void initState() {
@@ -25,19 +24,14 @@ class _ClassificationTabState extends State<ClassificationTab> {
           .getSample(type: tableType.steam, percentage: 10)
           .then((tableValue) {
         sampleColumns = tableValue;
-        print(sampleColumns);
         setState(() {});
       });
     });
   }
 
-  List<int> valueOfIndex({int index}) {
-    List<int> value = new List<int>();
-  }
-
   Widget _buildBody(context) {
     return SafeArea(
-      child: sampleColumns == null
+      child: sampleColumns.isEmpty
           ? Container(
               color: Colors.black.withOpacity(0.5),
               child: Center(
@@ -59,11 +53,13 @@ class _ClassificationTabState extends State<ClassificationTab> {
                       margin: EdgeInsets.symmetric(
                           horizontal: ScreenUtil.getInstance().setHeight(50)),
                       child: ListView.builder(
-                        itemCount: 3,
+                        itemCount: sampleColumns[0].keys.length,
                         itemBuilder: (context, index) {
                           //  String key = classificationColumns[index].classificationElements.keys;
                           return TileItem(
                             num: index,
+                            keys: sampleColumns[0].keys.toList(),
+                            data:sampleColumns,
                           );
                         },
                       ),
