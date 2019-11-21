@@ -21,13 +21,13 @@ class CustomCircleSymbolRenderer extends CircleSymbolRenderer {
         strokeColor: strokeColor,
         strokeWidthPx: strokeWidthPx);
     canvas.drawRect(
-        Rectangle(bounds.left - 5, bounds.top - 45,
-            bounds.width + (text.length - 1) * 5, bounds.height *5),
+        Rectangle(bounds.left - 10, bounds.top - 45,
+            bounds.width + (text.length - 1) * 4, bounds.height *5),
         fill: Color.white);
     var textStyle = style.TextStyle();
     textStyle.color = Color.black;
     textStyle.fontSize = 15;
-    canvas.drawText(TextElement(text, style: textStyle), (bounds.left).round(),
+    canvas.drawText(TextElement(text, style: textStyle), (bounds.left - 8).round(),
         (bounds.top - 40).round());
   }
 }

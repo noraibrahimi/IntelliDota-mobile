@@ -27,7 +27,7 @@ class IntelliDrawer extends StatelessWidget {
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: ScreenUtil.getInstance().setSp(70),
-                      fontFamily: AppStrings.fontMedium),
+                      fontFamily: AppStrings.fontBold),
                 ),
               ),
               Align(
@@ -35,7 +35,7 @@ class IntelliDrawer extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.only(
                       top: ScreenUtil.getInstance().setHeight(70),
-                      right: ScreenUtil.getInstance().setHeight(50)),
+                      right: ScreenUtil.getInstance().setHeight(15)),
                   child: IconButton(
                     icon: Icon(
                       Icons.close,
@@ -71,7 +71,7 @@ class IntelliDrawer extends StatelessWidget {
         ),
         listItem(
             context: context,
-            title: "Tabela e të dhënave",
+            title: "Mostër e të dhënave",
             routeName: RouteStrings.sampleScreen),
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),

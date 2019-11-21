@@ -40,11 +40,19 @@ class _SampleScreenState extends State<SampleScreen> {
                     indicatorColor: Color(0xff57616f),
                     tabs: [
                       Tab(
-                        text: "Klasifikim",
-                      ),
+                          child: Text(
+                        "Klasifikim",
+                        style: TextStyle(
+                            fontFamily: AppStrings.fontMedium,
+                            color: Colors.white),
+                      )),
                       Tab(
-                        text: "Kllasterim",
-                      ),
+                          child: Text(
+                        "Kllasterim",
+                        style: TextStyle(
+                            fontFamily: AppStrings.fontMedium,
+                            color: Colors.white),
+                      )),
                     ],
                   ),
                   elevation: 0.0,
