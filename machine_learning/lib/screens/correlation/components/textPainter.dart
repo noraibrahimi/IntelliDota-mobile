@@ -5,29 +5,30 @@ import 'package:machine_learning/utils/strings.dart';
 class StringPainter extends CustomPainter {
   String text;
   double angle;
+  Offset position;
 
-  StringPainter({this.text, this.angle});
+  StringPainter({this.text, this.angle,this.position});
 
   @override
   void paint(Canvas canvas, Size size) {
     canvas.save();
-    canvas.translate(100.0, 100.0);
+    canvas.translate(0.0, 0.0);
     canvas.rotate(angle);
-
-    TextSpan span =  TextSpan(
+    TextSpan span = TextSpan(
         style: TextStyle(
             color: Colors.white,
-            fontSize: ScreenUtil.getInstance().setSp(42),
+            fontSize: ScreenUtil.getInstance().setSp(32),
             fontFamily: AppStrings.fontMedium),
         text: text);
 
-    TextPainter tp =  TextPainter(
+    TextPainter tp = TextPainter(
         text: span,
-        textAlign: TextAlign.start,
+        textAlign: TextAlign.right,
         textDirection: TextDirection.ltr);
 
-    tp.layout();
-    tp.paint(canvas,  Offset(-73, 80.0));
+    tp.layout(maxWidth: size.width);
+    tp.paint(canvas, position);
+    canvas.restore();
   }
 
   @override

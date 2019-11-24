@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:machine_learning/providers/appState.dart';
+import 'package:machine_learning/screens/correlation/components/plotGradient.dart';
 import 'package:machine_learning/screens/correlation/components/plotPainter.dart';
 import 'package:machine_learning/screens/correlation/components/textPainter.dart';
 import 'package:machine_learning/utils/colors.dart';
@@ -56,7 +57,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
                         SizedBox(
                           height: ScreenUtil.getInstance().setHeight(80),
                         ),
-                        _buildGradient(),
+                        BuildGradient(),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
@@ -149,9 +150,10 @@ class _ClusteringTabState extends State<ClusteringTab> {
                                     ScreenUtil.getInstance().setHeight(40)),
                             child: CustomPaint(
                                 painter: StringPainter(
-                                    angle: 1.9,
+                                    position: Offset(45, 0.0),
+                                    angle: 0,
                                     text: Provider.of<AppState>(context)
-                                        .steamColumnNames[index]
+                                        .kaggleColumnNames[index]
                                         .replaceAll(RegExp('_'), ' '))),
                           );
                         }),
@@ -160,94 +162,6 @@ class _ClusteringTabState extends State<ClusteringTab> {
               ));
   }
 
-  Widget _buildGradient() {
-    return Column(
-      children: <Widget>[
-        Container(
-            margin:
-                EdgeInsets.only(bottom: ScreenUtil.getInstance().setHeight(10)),
-            width: ScreenUtil.getInstance().setWidth(600),
-            height: ScreenUtil.getInstance().setWidth(60),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white.withOpacity(0.2)),
-              gradient: LinearGradient(
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  stops: [
-                    0.0,
-                    0.3,
-                    0.5,
-                    0.7,
-                    1.0,
-                  ],
-                  colors: <Color>[
-                    Colors.white,
-                    Colors.white.withOpacity(0.5),
-                    AppColors.defaultColor,
-                    Colors.white.withOpacity(0.5),
-                    Colors.white
-                  ]),
-            )),
-        Container(
-            margin: EdgeInsets.symmetric(
-                horizontal: ScreenUtil.getInstance().setHeight(20)),
-            width: ScreenUtil.getInstance().setWidth(580),
-            height: ScreenUtil.getInstance().setWidth(50),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text('1',
-                    style: TextStyle(
-                        fontFamily: AppStrings.fontRegular,
-                        color: Colors.white)),
-                Text('0',
-                    style: TextStyle(
-                        fontFamily: AppStrings.fontRegular,
-                        color: Colors.white)),
-                Text('-1',
-                    style: TextStyle(
-                        fontFamily: AppStrings.fontRegular,
-                        color: Colors.white))
-              ],
-            )),
-        SizedBox(
-          height: ScreenUtil.getInstance().setHeight(35),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLegend() {
-    return Container(
-      margin: EdgeInsets.symmetric(
-          vertical: ScreenUtil.getInstance().setHeight(50),
-          horizontal: ScreenUtil.getInstance().setHeight(50)),
-      width: double.infinity,
-      height: ScreenUtil.getInstance().setHeight(500),
-      child: GridView.builder(
-          primary: false,
-          scrollDirection: Axis.vertical,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: ScreenUtil.getInstance().setWidth(660) /
-                (MediaQuery.of(context).size.height / 22),
-          ),
-          itemCount: Provider.of<AppState>(context).kaggleColumnNames.length,
-          itemBuilder: (context, index) {
-            return GridTile(
-                child: Padding(
-              padding: EdgeInsets.only(
-                  left: ScreenUtil.getInstance().setHeight(65),
-                  top: ScreenUtil.getInstance().setHeight(20)),
-              child: Text(
-                '${index + 1}: ${Provider.of<AppState>(context).steamColumnNames[index].replaceAll(RegExp('_'), ' ')}',
-                style: TextStyle(
-                    color: Colors.white, fontFamily: AppStrings.fontMedium),
-              ),
-            ));
-          }),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
