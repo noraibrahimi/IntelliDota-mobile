@@ -27,7 +27,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
           .getStages(type: tableType.steam)
           .then((stageValue) {
         stage = stageValue;
-        setState(() {});
+        if(mounted)setState(() {});
       });
     });
   }

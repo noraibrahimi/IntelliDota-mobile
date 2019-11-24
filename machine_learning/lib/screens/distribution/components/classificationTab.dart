@@ -173,6 +173,8 @@ class _ClassificationTabState extends State<ClassificationTab> {
           upperLowerBounds = [];
         });
         _currentButton = index;
+        print(Provider.of<AppState>(context)
+            .steamColumnNames[_currentButton]);
         Provider.of<AppState>(context)
             .getGroupAndCount(
                 type: tableType.steam,
@@ -185,7 +187,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
           setState(() {
             Provider.of<AppState>(context).steamGroupAndCount.forEach((item) {
               upperLowerBounds.add(
-                  'U: ${item.upperBound.toInt()}\nL: ${item.lowerBound.toInt()}');
+                  'U: ${item.upperBound}\nL: ${item.lowerBound}');
             });
             _loading = false;
           });

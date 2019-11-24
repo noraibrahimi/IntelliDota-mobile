@@ -10,8 +10,8 @@ GroupAndCount _$GroupAndCountFromJson(Map<String, dynamic> json) {
   return GroupAndCount(
     bucket: double.parse(json['bucket'] as String),
     count: double.parse(json['count'] as String),
-    lowerBound: double.parse(json['lowerBound'] as String),
-    upperBound: double.parse(json['upperBound'] as String),
+    lowerBound: json['lowerBound'],
+    upperBound: json['upperBound'],
   );
 }
 

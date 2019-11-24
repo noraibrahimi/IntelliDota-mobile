@@ -63,7 +63,8 @@ class _ClusteringTabState extends State<ClusteringTab> {
                   changedListener: (charts.SelectionModel model) {
                 if (model.hasDatumSelection) {
                   setState(() {
-                    render.text = upperLowerBounds[model.selectedDatum[0].index];
+                    render.text =
+                        upperLowerBounds[model.selectedDatum[0].index];
                   });
                 }
               })
@@ -172,7 +173,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
       onTap: () async {
         setState(() {
           _loading = true;
-          upperLowerBounds =[];
+          upperLowerBounds = [];
         });
         _currentButton = index;
         Provider.of<AppState>(context)
@@ -186,7 +187,8 @@ class _ClusteringTabState extends State<ClusteringTab> {
 
           setState(() {
             Provider.of<AppState>(context).kaggleGroupAndCount.forEach((item) {
-              upperLowerBounds.add('U: ${item.upperBound.toInt()}\nL: ${item.lowerBound.toInt()}');
+              upperLowerBounds
+                  .add('U: ${item.upperBound}\nL: ${item.lowerBound}');
             });
             _loading = false;
           });

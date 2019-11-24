@@ -6,8 +6,8 @@ part 'groupAndCount.g.dart';
 class GroupAndCount {
   final double bucket;
   final double count;
-  final double lowerBound;
-  final double upperBound;
+  final String lowerBound;
+  final String upperBound;
 
   GroupAndCount({this.bucket, this.count,this.lowerBound,this.upperBound});
 

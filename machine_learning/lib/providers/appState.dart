@@ -109,6 +109,6 @@ class AppState with ChangeNotifier {
           "/getSample?kind=${type.toString().split('.').last}&percentage=$percentage",
     );
     List info = jsonDecode(response.body);
-    return  info.map((item) => Map.castFrom(item)).toList();
+    return info.map((item) => Map.castFrom(item)).toList();
   }
 }

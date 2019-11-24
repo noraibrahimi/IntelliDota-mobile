@@ -76,6 +76,20 @@ class IntelliDrawer extends StatelessWidget {
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),
         ),
+        listItem(
+            context: context,
+            title: "Matrica e korrelacionit",
+            routeName: RouteStrings.correlationScreen),
+        SizedBox(
+          height: ScreenUtil.getInstance().setHeight(10),
+        ),
+        listItem(
+            context: context,
+            title: "Statistika",
+            routeName: RouteStrings.statisticsScreen),
+        SizedBox(
+          height: ScreenUtil.getInstance().setHeight(10),
+        ),
       ],
     );
   }
