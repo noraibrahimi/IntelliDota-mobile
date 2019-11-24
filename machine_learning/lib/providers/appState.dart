@@ -111,4 +111,16 @@ class AppState with ChangeNotifier {
     List info = jsonDecode(response.body);
     return info.map((item) => Map.castFrom(item)).toList();
   }
+
+  Future<List<dynamic>> getCorrelationMatrix({tableType type}) async {
+    http.Response response = await http.get(
+      AppConfig.of(navigatorKey.currentContext).apiBaseUrl +
+          "/getCorrelationMatrix?kind=${type.toString().split('.').last}",
+    );
+    List info = jsonDecode(response.body);
+    return info
+        .map((item) => Map.castFrom(item))
+        .toList()
+        .first['pearson(features)']['values'];
+  }
 }

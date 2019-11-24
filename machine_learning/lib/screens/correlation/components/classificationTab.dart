@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:machine_learning/utils/colors.dart';
+import 'package:machine_learning/providers/appState.dart';
+import 'package:machine_learning/screens/correlation/components/plotPainter.dart';
 import 'package:machine_learning/utils/strings.dart';
+import 'package:provider/provider.dart';
 
 class ClassificationTab extends StatefulWidget {
   @override
@@ -13,136 +17,108 @@ class ClassificationTab extends StatefulWidget {
 }
 
 class _ClassificationTabState extends State<ClassificationTab> {
-  double rating = 0;
-  bool _loading = false;
+  List<dynamic> points = [];
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {});
-  }
-
-  Widget _buildChart(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              width: ScreenUtil.getInstance().setHeight(65),
-              height: ScreenUtil.getInstance().setHeight(1050),
-              margin: EdgeInsets.symmetric(
-                  vertical: ScreenUtil.getInstance().setHeight(40),
-                  horizontal: ScreenUtil.getInstance().setHeight(5)),
-              child: Center(
-                child: ListView.builder(
-                    itemCount: 13,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: ScreenUtil.getInstance().setHeight(15)),
-                        child: Text(
-                          '${index + 1}',
-                          style: TextStyle(
-                              color: AppColors.secondaryColor,
-                              fontFamily: AppStrings.fontRegular,
-                              fontSize: ScreenUtil.getInstance().setHeight(38)),
-                        ),
-                      );
-                    }),
-              ),
-            ),
-            Container(
-              width: ScreenUtil.getInstance().setHeight(1000),
-              height: ScreenUtil.getInstance().setHeight(1050),
-              margin: EdgeInsets.symmetric(
-                  vertical: ScreenUtil.getInstance().setHeight(40),
-                  horizontal: ScreenUtil.getInstance().setHeight(10)),
-              child: ListView.builder(
-                  itemCount: 13,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(color: AppColors.secondaryColor)),
-                      child: Container(
-                        width: ScreenUtil.getInstance().setHeight(1000),
-                        height: ScreenUtil.getInstance().setHeight(80),
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 13,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      ScreenUtil.getInstance().setHeight(35.4),
-                                ),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: AppColors.secondaryColor)),
-                              );
-                            }),
-                      ),
-                    );
-                  }),
-            ),
-          ],
-        ),
-        Container(
-          width: ScreenUtil.getInstance().setHeight(1000),
-          height: ScreenUtil.getInstance().setHeight(80),
-          margin: EdgeInsets.symmetric(
-              horizontal: ScreenUtil.getInstance().setHeight(10)),
-          child: Center(
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 13,
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil.getInstance().setHeight(22),
-                        vertical: ScreenUtil.getInstance().setHeight(15)),
-                    child: Text(
-                      '${index + 1}',
-                      style: TextStyle(
-                          color: AppColors.secondaryColor,
-                          fontFamily: AppStrings.fontRegular,
-                          fontSize: ScreenUtil.getInstance().setHeight(38)),
-                    ),
-                  );
-                }),
-          ),
-        ),
-      ],
-    );
+    Future.delayed(Duration.zero, () {
+      Provider.of<AppState>(context)
+          .getCorrelationMatrix(type: tableType.steam)
+          .then((values) {
+        points = values;
+        setState(() {});
+      });
+    });
   }
 
   Widget _buildBody(context) {
     return SafeArea(
-      child: Stack(
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.symmetric(
-                horizontal: ScreenUtil.getInstance().setHeight(20)),
-            child: Column(
-              children: <Widget>[
-                Expanded(child: _buildChart(context)),
-              ],
-            ),
-          ),
-          Container(
-            color: Colors.black.withOpacity(0.5),
-            child: _loading
-                ? Center(
-                    child: SpinKitRing(
-                      size: 80,
-                      color: Colors.white,
-                    ),
+      child: points.isEmpty
+          ? Container(
+              color: Colors.black.withOpacity(0.5),
+              child: Center(
+                child: SpinKitRing(
+                  size: 80,
+                  color: Colors.white,
+                ),
+              ))
+          : Container(
+              margin: EdgeInsets.symmetric(
+                  horizontal: ScreenUtil.getInstance().setHeight(20)),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: ScreenUtil.getInstance().setHeight(100),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: ScreenUtil.getInstance().setHeight(20)),
+                            width: ScreenUtil.getInstance().setHeight(60),
+                            height: ScreenUtil.getInstance().setHeight(950),
+                            child: ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: sqrt(points.length).toInt(),
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    height:
+                                        ScreenUtil.getInstance().setHeight(74),
+                                    child: Center(
+                                        child: Text(
+                                      '${sqrt(points.length).toInt() - index}',
+                                      style: TextStyle(
+                                          fontFamily: AppStrings.fontRegular,
+                                          color: Colors.white),
+                                    )),
+                                  );
+                                }),
+                          ),
+                          Container(
+                            width: ScreenUtil.getInstance().setHeight(950),
+                            height: ScreenUtil.getInstance().setHeight(950),
+                            margin: EdgeInsets.symmetric(
+                                horizontal:
+                                    ScreenUtil.getInstance().setHeight(20)),
+                            child: CustomPaint(
+                              painter: PlotPainter(List<double>.from(points),
+                                  divisions: sqrt(points.length).toInt()),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: ScreenUtil.getInstance().setHeight(950),
+                        height: ScreenUtil.getInstance().setHeight(60),
+                        margin: EdgeInsets.only(
+                            top: ScreenUtil.getInstance().setHeight(5),
+                            right: ScreenUtil.getInstance().setHeight(55)),
+                        child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: sqrt(points.length).toInt(),
+                            itemBuilder: (context, index) {
+                              return Container(
+                                width: ScreenUtil.getInstance().setHeight(74),
+                                child: Center(
+                                    child: Text(
+                                  '${index + 1}',
+                                  style: TextStyle(
+                                      fontFamily: AppStrings.fontRegular,
+                                      color: Colors.white),
+                                )),
+                              );
+                            }),
+                      ),
+                    ],
                   )
-                : SizedBox(),
-          )
-        ],
-      ),
+                ],
+              ),
+            ),
     );
   }
 
