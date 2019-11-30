@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:machine_learning/main.dart';
 import 'package:machine_learning/models/groupAndCount.dart';
+import 'package:machine_learning/models/schema.dart';
 import 'package:machine_learning/models/stage.dart';
 import 'package:machine_learning/utils/appConfig.dart';
 
@@ -122,5 +123,23 @@ class AppState with ChangeNotifier {
         .map((item) => Map.castFrom(item))
         .toList()
         .first['pearson(features)']['values'];
+  }
+
+  Future<List<Schema>> getSchema({tableType type}) async {
+    http.Response response = await http.get(
+      AppConfig.of(navigatorKey.currentContext).apiBaseUrl +
+          "/getSchema?kind=${type.toString().split('.').last}",
+    );
+    List info = jsonDecode(response.body);
+    return info.map((item) => Schema.fromMappedJson(item)).toList();
+  }
+
+  Future<Map<String, dynamic>> getStats({tableType type}) async {
+    http.Response response = await http.get(
+      AppConfig.of(navigatorKey.currentContext).apiBaseUrl +
+          "/getStats?kind=${type.toString().split('.').last}",
+    );
+    Map info = jsonDecode(response.body);
+    return info;
   }
 }
