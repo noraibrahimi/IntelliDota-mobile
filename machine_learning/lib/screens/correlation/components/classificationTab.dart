@@ -153,6 +153,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
                                     angle: 0,
                                     text: Provider.of<AppState>(context)
                                         .steamColumnNames[index]
+                                        .toUpperCase()
                                         .replaceAll(RegExp('_'), ' '))),
                           );
                         }),

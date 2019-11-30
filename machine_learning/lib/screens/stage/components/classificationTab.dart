@@ -27,7 +27,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
           .getStages(type: tableType.steam)
           .then((stageValue) {
         stage = stageValue;
-        if(mounted)setState(() {});
+        setState(() {});
       });
     });
   }
@@ -81,78 +81,78 @@ class _ClassificationTabState extends State<ClassificationTab> {
         Padding(
           padding:
               EdgeInsets.only(left: ScreenUtil.getInstance().setHeight(130)),
-          child: Card(
-            color: AppColors.defaultColor,
-            elevation: 0,
-            margin: EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
-            child: Container(
-              width: double.infinity,
-              height: ScreenUtil.getInstance()
-                  .setHeight(200 + content.length.toDouble() * 75),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(
-                      ScreenUtil.getInstance().setHeight(100))),
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: ScreenUtil.getInstance().setHeight(20)),
-                    child: Text(
-                      "${title.split("_")[0]}",
-                      style: TextStyle(
-                          color: AppColors.defaultColor,
-                          fontFamily: AppStrings.fontMedium),
+          child: Container(
+            width: double.infinity,
+            height: ScreenUtil.getInstance()
+                .setHeight(200 + content.length.toDouble() * 160),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding:
+                      EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: FittedBox(
+                      child: Text(
+                        "${title.split("_")[0]}",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: ScreenUtil.getInstance().setSp(60),
+                            fontFamily: AppStrings.fontBold),
+                      ),
                     ),
                   ),
-                  SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(50),
+                ),
+                SizedBox(
+                  height: ScreenUtil.getInstance().setHeight(50),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: ScreenUtil.getInstance().setHeight(30)),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "${content[index].name}:",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        ScreenUtil.getInstance().setSp(45),
+                                    fontFamily: AppStrings.fontMedium),
+                              ),
+                              SizedBox(
+                                height: ScreenUtil.getInstance().setHeight(5),
+                              ),
+                              Text(
+                                "${content[index].value.split("@")[0]}",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: AppStrings.fontLight),
+                              ),
+                              SizedBox(
+                                height: ScreenUtil.getInstance().setHeight(20),
+                              ),
+                            ],
+                          );
+                        },
+                        itemCount: content.length,
+                      )),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: ScreenUtil.getInstance().setHeight(30)),
+                  child: Divider(
+                    color: Colors.white.withOpacity(0.2),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil.getInstance().setHeight(30)),
-                    child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Text(
-                                      "${content[index].name}:",
-                                      style: TextStyle(
-                                          color: AppColors.defaultColor,
-                                          fontFamily: AppStrings.fontRegular),
-                                    ),
-                                    SizedBox(
-                                      width: ScreenUtil.getInstance()
-                                          .setHeight(10),
-                                    ),
-                                    Text(
-                                      "${content[index].value.split("@")[0]}",
-                                      style: TextStyle(
-                                          color: AppColors.defaultColor,
-                                          fontFamily: AppStrings.fontLight),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height:
-                                      ScreenUtil.getInstance().setHeight(15),
-                                ),
-                              ],
-                            );
-                          },
-                          itemCount: content.length,
-                        )),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -168,11 +168,11 @@ class _ClassificationTabState extends State<ClassificationTab> {
         ),
         Positioned(
           top: ScreenUtil.getInstance()
-              .setHeight(100 + content.length.toDouble() * 32.5),
-          left: ScreenUtil.getInstance().setHeight(0),
+              .setHeight(10 + content.length.toDouble() * 8),
+          left: ScreenUtil.getInstance().setHeight(15),
           child: Container(
-            height: ScreenUtil.getInstance().setHeight(100),
-            width: ScreenUtil.getInstance().setHeight(100),
+            height: ScreenUtil.getInstance().setHeight(70),
+            width: ScreenUtil.getInstance().setHeight(70),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white)),
