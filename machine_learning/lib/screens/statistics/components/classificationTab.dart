@@ -28,19 +28,20 @@ class _ClassificationTabState extends State<ClassificationTab> {
           .getSchema(type: tableType.steam)
           .then((value) {
         schema = value;
+        setState(() {});
       });
       Provider.of<AppState>(context)
           .getStats(type: tableType.steam)
           .then((value) {
         stats = value;
+        setState(() {});
       });
-      setState(() {});
     });
   }
 
   Widget _buildBody(context) {
     return SafeArea(
-      child: schema == null
+      child: schema == null || stats == null
           ? Container(
               color: Colors.black.withOpacity(0.5),
               child: Center(
@@ -87,20 +88,34 @@ class _ClassificationTabState extends State<ClassificationTab> {
                   Container(
                     margin:
                         EdgeInsets.all(ScreenUtil.getInstance().setHeight(70)),
+                    padding:
+                        EdgeInsets.all(ScreenUtil.getInstance().setHeight(30)),
                     decoration: BoxDecoration(
                         border: Border.all(color: Colors.white),
                         borderRadius: BorderRadius.circular(
                             ScreenUtil.getInstance().setHeight(40))),
-                    child: FittedBox(
-                      child: Theme(
-                        data: Theme.of(context).copyWith(
-                            dividerColor: Colors.transparent
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            dataColumns()[0],
+                            dataColumns()[1],
+                            dataColumns()[2],
+                          ],
                         ),
-                        child: DataTable(
-                          columns: dataColumns(),
-                          rows: [DataRow(cells: dataCells())],
+                        Divider(
+                          color: Colors.white,
                         ),
-                      ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            dataRows()[0],
+                            dataRows()[1],
+                            dataRows()[2],
+                          ],
+                        )
+                      ],
                     ),
                   )
                 ],
@@ -168,7 +183,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
           ),
         ),
         decoration: BoxDecoration(
-          color: AppColors.secondaryColor.withOpacity(0.3),
+          color: Colors.black.withOpacity(0.3),
           borderRadius:
               BorderRadius.circular(ScreenUtil.getInstance().setHeight(12)),
           border: Border.all(
@@ -179,25 +194,24 @@ class _ClassificationTabState extends State<ClassificationTab> {
     );
   }
 
-  List<DataColumn> dataColumns() {
-    List<DataColumn> dataColumns = [];
+  List<Widget> dataColumns() {
+    List<Widget> widgets = [];
     stats.forEach((key, value) {
-      dataColumns.add(DataColumn(
-          label: Text('${key.toUpperCase()}',
-              style: TextStyle(
-                  color: Colors.white, fontFamily: AppStrings.fontMedium))));
+      widgets.add(Text('${key.toUpperCase()}',
+          style: TextStyle(
+              color: Colors.white, fontFamily: AppStrings.fontMedium)));
     });
-    return dataColumns;
+    return widgets;
   }
 
-  List<DataCell> dataCells() {
-    List<DataCell> dataCells = [];
+  List<Widget> dataRows() {
+    List<Widget> widgets = [];
     stats.forEach((key, value) {
-      dataCells.add(DataCell(Text(
+      widgets.add(Text(
         '${value.toUpperCase()}',
         style: TextStyle(color: Colors.white, fontFamily: AppStrings.fontLight),
-      )));
+      ));
     });
-    return dataCells;
+    return widgets;
   }
 }

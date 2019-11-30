@@ -90,6 +90,13 @@ class IntelliDrawer extends StatelessWidget {
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),
         ),
+        listItem(
+            context: context,
+            title: "Predikim",
+            routeName: RouteStrings.predictionScreen),
+        SizedBox(
+          height: ScreenUtil.getInstance().setHeight(10),
+        ),
       ],
     );
   }
