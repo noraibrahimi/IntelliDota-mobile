@@ -6,14 +6,14 @@ import 'package:machine_learning/utils/colors.dart';
 import 'package:machine_learning/utils/strings.dart';
 import 'package:provider/provider.dart';
 
-class ClassificationTab extends StatefulWidget {
+class ClusteringTab extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _ClassificationTabState();
+    return _ClusteringTabState();
   }
 }
 
-class _ClassificationTabState extends State<ClassificationTab> {
+class _ClusteringTabState extends State<ClusteringTab> {
   @override
   void initState() {
     super.initState();
@@ -39,13 +39,13 @@ class _ClassificationTabState extends State<ClassificationTab> {
                 child: ListView.builder(
                     scrollDirection: Axis.vertical,
                     itemCount:
-                        Provider.of<AppState>(context).steamColumnNames.length,
+                        Provider.of<AppState>(context).kaggleColumnNames.length,
                     itemBuilder: (context, index) {
                       return GridTile(
                         child: listItem(
                           index: index,
                           hintText: Provider.of<AppState>(context)
-                              .steamColumnNames[index],
+                              .kaggleColumnNames[index],
                         ),
                       );
                     }),

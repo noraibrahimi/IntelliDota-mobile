@@ -4,6 +4,7 @@ import 'package:machine_learning/utils/colors.dart';
 import 'package:machine_learning/utils/strings.dart';
 
 import 'components/classificationTab.dart';
+import 'components/clusteringTab.dart';
 
 class PredictionScreen extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _PredictionScreenState extends State<PredictionScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: DefaultTabController(
-            length: 1,
+            length: 2,
             child: Scaffold(
                 backgroundColor: AppColors.defaultColor,
                 appBar: AppBar(
@@ -46,13 +47,20 @@ class _PredictionScreenState extends State<PredictionScreen> {
                             fontFamily: AppStrings.fontMedium,
                             color: Colors.white),
                       )),
+                      Tab(
+                          child: Text(
+                        "Kllasterim",
+                        style: TextStyle(
+                            fontFamily: AppStrings.fontMedium,
+                            color: Colors.white),
+                      )),
                     ],
                   ),
                   elevation: 0.0,
                 ),
                 body: TabBarView(
                   physics: NeverScrollableScrollPhysics(),
-                  children: <Widget>[ClassificationTab()],
+                  children: <Widget>[ClassificationTab(), ClusteringTab()],
                 ))));
   }
 }
