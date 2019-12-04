@@ -43,10 +43,15 @@ class _ClusteringTabState extends State<ClusteringTab> {
                     itemBuilder: (context, index) {
                       return GridTile(
                         child: listItem(
-                          index: index,
-                          hintText: Provider.of<AppState>(context)
-                              .kaggleColumnNames[index],
-                        ),
+                            index: index,
+                            hintText: Provider.of<AppState>(context)
+                                .kaggleColumnNames
+                                .keys
+                                .elementAt(index),
+                            defaultValue: Provider.of<AppState>(context)
+                                .kaggleColumnNames
+                                .values
+                                .elementAt(index)),
                       );
                     }),
               ),
@@ -113,25 +118,24 @@ class _ClusteringTabState extends State<ClusteringTab> {
     return _buildBody(context);
   }
 
-  Widget listItem({index, hintText}) {
+  Widget listItem({index, hintText, defaultValue}) {
     return Container(
-      width: ScreenUtil.getInstance().setWidth(50),
-      height: ScreenUtil.getInstance().setHeight(100),
       margin: EdgeInsets.symmetric(
         horizontal: ScreenUtil.getInstance().setHeight(120),
-        vertical: ScreenUtil.getInstance().setHeight(7),
+        vertical: ScreenUtil.getInstance().setHeight(10),
       ),
       child: TextField(
         keyboardType: TextInputType.numberWithOptions(signed: false),
         style: TextStyle(
             color: Colors.white, fontSize: ScreenUtil.getInstance().setSp(42)),
         decoration: InputDecoration(
-            hintText: '${hintText.toUpperCase().replaceAll(RegExp('_'), ' ')}',
+            hintText:
+                '${hintText.toUpperCase().replaceAll(RegExp('_'), ' ')} - $defaultValue',
             contentPadding:
-                EdgeInsets.all(ScreenUtil.getInstance().setHeight(20)),
+                EdgeInsets.all(ScreenUtil.getInstance().setHeight(45)),
             hintStyle: TextStyle(
                 color: Colors.white.withOpacity(0.5),
-                fontSize: ScreenUtil.getInstance().setSp(28)),
+                fontSize: ScreenUtil.getInstance().setSp(32)),
             labelStyle: TextStyle(color: Colors.white),
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),

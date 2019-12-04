@@ -124,18 +124,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
                             child: listItem(
                                 index: index,
                                 title:
-                                    "${Provider.of<AppState>(context).steamColumnNames[index]}",
-                                color: AppColors()
-                                    .makeColor(
-                                        index,
-                                        Provider.of<AppState>(context)
-                                            .steamColumnNames
-                                            .length
-                                            .toDouble(),
-                                        0.5,
-                                        0.5)
-                                    .toColor()
-                                    .withOpacity(0.3),
+                                    "${Provider.of<AppState>(context).steamColumnNames.keys.elementAt(index)}",
                                 isSelected: false),
                           );
                         }),
@@ -173,13 +162,10 @@ class _ClassificationTabState extends State<ClassificationTab> {
           upperLowerBounds = [];
         });
         _currentButton = index;
-        print(Provider.of<AppState>(context)
-            .steamColumnNames[_currentButton]);
         Provider.of<AppState>(context)
             .getGroupAndCount(
                 type: tableType.steam,
-                attribute: Provider.of<AppState>(context)
-                    .steamColumnNames[_currentButton])
+                attribute:Provider.of<AppState>(context).steamColumnNames.keys.elementAt(_currentButton))
             .then((_) {
           if (_currentButton != -1)
             Provider.of<AppState>(context).steamSeriesData = [];

@@ -34,8 +34,15 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
-  List _kaggleColumnNames = [];
-  List _steamColumnNames = [];
+  Map _kaggleColumnNames;
+
+  Map get kaggleColumnNames => _kaggleColumnNames;
+
+  set kaggleColumnNames(Map value) {
+    _kaggleColumnNames = value;
+  }
+
+  Map _steamColumnNames ;
   List<GroupAndCount> _kaggleGroupAndCount = [];
   List<GroupAndCount> _steamGroupAndCount = [];
 
@@ -53,19 +60,6 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
-  List get steamColumnNames => _steamColumnNames;
-
-  set steamColumnNames(List value) {
-    _steamColumnNames = value;
-    notifyListeners();
-  }
-
-  List get kaggleColumnNames => _kaggleColumnNames;
-
-  set kaggleColumnNames(List value) {
-    _kaggleColumnNames = value;
-    notifyListeners();
-  }
 
   Future getColumns(tableType type) async {
     http.Response response = await http.get(
@@ -75,6 +69,7 @@ class AppState with ChangeNotifier {
     type == tableType.kaggle
         ? kaggleColumnNames = await jsonDecode(response.body)
         : steamColumnNames = await jsonDecode(response.body);
+    print(">>>>>>>>>>>> $kaggleColumnNames");
   }
 
   Future<List<GroupAndCount>> getGroupAndCount(
@@ -141,5 +136,11 @@ class AppState with ChangeNotifier {
     );
     Map info = jsonDecode(response.body);
     return info;
+  }
+
+  Map get steamColumnNames => _steamColumnNames;
+
+  set steamColumnNames(Map value) {
+    _steamColumnNames = value;
   }
 }

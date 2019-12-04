@@ -45,7 +45,9 @@ class _ClassificationTabState extends State<ClassificationTab> {
                         child: listItem(
                           index: index,
                           hintText: Provider.of<AppState>(context)
-                              .steamColumnNames[index],
+                              .steamColumnNames.keys.elementAt(index),
+                          defaultValue:Provider.of<AppState>(context)
+                              .steamColumnNames.values.elementAt(index)
                         ),
                       );
                     }),
@@ -113,22 +115,20 @@ class _ClassificationTabState extends State<ClassificationTab> {
     return _buildBody(context);
   }
 
-  Widget listItem({index, hintText}) {
+  Widget listItem({index, hintText,defaultValue}) {
     return Container(
-      width: ScreenUtil.getInstance().setWidth(50),
-      height: ScreenUtil.getInstance().setHeight(100),
       margin: EdgeInsets.symmetric(
         horizontal: ScreenUtil.getInstance().setHeight(120),
-        vertical: ScreenUtil.getInstance().setHeight(7),
+        vertical: ScreenUtil.getInstance().setHeight(10),
       ),
       child: TextField(
         keyboardType: TextInputType.numberWithOptions(signed: false),
         style: TextStyle(
             color: Colors.white, fontSize: ScreenUtil.getInstance().setSp(42)),
         decoration: InputDecoration(
-            hintText: '${hintText.toUpperCase().replaceAll(RegExp('_'), ' ')}',
+            hintText: '${hintText.toUpperCase().replaceAll(RegExp('_'), ' ')} - $defaultValue',
             contentPadding:
-                EdgeInsets.all(ScreenUtil.getInstance().setHeight(20)),
+                EdgeInsets.all(ScreenUtil.getInstance().setHeight(45)),
             hintStyle: TextStyle(
                 color: Colors.white.withOpacity(0.5),
                 fontSize: ScreenUtil.getInstance().setSp(28)),

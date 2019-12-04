@@ -151,8 +151,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
                                 painter: StringPainter(
                                     position: Offset(45, 0.0),
                                     angle: 0,
-                                    text: Provider.of<AppState>(context)
-                                        .steamColumnNames[index]
+                                    text: Provider.of<AppState>(context).steamColumnNames.keys.elementAt(index)
                                         .toUpperCase()
                                         .replaceAll(RegExp('_'), ' '))),
                           );

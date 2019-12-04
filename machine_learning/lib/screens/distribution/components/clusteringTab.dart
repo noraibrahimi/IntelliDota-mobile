@@ -127,18 +127,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
                             child: listItem(
                                 index: index,
                                 title:
-                                    "${Provider.of<AppState>(context).kaggleColumnNames[index]}",
-                                color: AppColors()
-                                    .makeColor(
-                                        index,
-                                        Provider.of<AppState>(context)
-                                            .kaggleColumnNames
-                                            .length
-                                            .toDouble(),
-                                        0.5,
-                                        0.5)
-                                    .toColor()
-                                    .withOpacity(0.3),
+                                    "${Provider.of<AppState>(context).kaggleColumnNames.keys.elementAt(index)}",
                                 isSelected: false),
                           );
                         }),
@@ -179,8 +168,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
         Provider.of<AppState>(context)
             .getGroupAndCount(
                 type: tableType.kaggle,
-                attribute: Provider.of<AppState>(context)
-                    .kaggleColumnNames[_currentButton])
+                attribute: Provider.of<AppState>(context).kaggleColumnNames.keys.elementAt(_currentButton))
             .then((_) {
           if (_currentButton != -1)
             Provider.of<AppState>(context).kaggleSeriesData = [];
