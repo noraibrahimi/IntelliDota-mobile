@@ -9,6 +9,7 @@ import 'package:machine_learning/main.dart';
 import 'package:machine_learning/models/groupAndCount.dart';
 import 'package:machine_learning/models/schema.dart';
 import 'package:machine_learning/models/stage.dart';
+import 'package:machine_learning/models/steamColumns.dart';
 import 'package:machine_learning/utils/appConfig.dart';
 
 enum tableType { steam, kaggle }
@@ -42,7 +43,8 @@ class AppState with ChangeNotifier {
     _kaggleColumnNames = value;
   }
 
-  Map _steamColumnNames ;
+  Map _steamColumnNames;
+
   List<GroupAndCount> _kaggleGroupAndCount = [];
   List<GroupAndCount> _steamGroupAndCount = [];
 
@@ -60,6 +62,11 @@ class AppState with ChangeNotifier {
     notifyListeners();
   }
 
+  Map get steamColumnNames => _steamColumnNames;
+
+  set steamColumnNames(Map value) {
+    _steamColumnNames = value;
+  }
 
   Future getColumns(tableType type) async {
     http.Response response = await http.get(
@@ -69,7 +76,6 @@ class AppState with ChangeNotifier {
     type == tableType.kaggle
         ? kaggleColumnNames = await jsonDecode(response.body)
         : steamColumnNames = await jsonDecode(response.body);
-    print(">>>>>>>>>>>> $kaggleColumnNames");
   }
 
   Future<List<GroupAndCount>> getGroupAndCount(
@@ -138,9 +144,12 @@ class AppState with ChangeNotifier {
     return info;
   }
 
-  Map get steamColumnNames => _steamColumnNames;
-
-  set steamColumnNames(Map value) {
-    _steamColumnNames = value;
+  Future<Map<String, dynamic>> postPredict(Map<String,int> steamColumns) async {
+    http.Response response = await http.post(
+        AppConfig.of(navigatorKey.currentContext).apiBaseUrl + "/postPredict",
+        body: jsonEncode(steamColumns));
+    Map info = jsonDecode(response.body);
+    print(">>>>>>>>>>>>>>>>>>>>>>>> $info");
+    return info;
   }
 }

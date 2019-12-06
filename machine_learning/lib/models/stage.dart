@@ -8,7 +8,6 @@ class Stage {
 
   final Map<String,List<StageElements>> stage;
 
-
   Stage({this.stage});
 
   factory Stage.fromMappedJson(Map<String, dynamic> json) =>
