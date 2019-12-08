@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:machine_learning/screens/clusterCount/clusterCount.dart';
+import 'package:machine_learning/screens/clusterStats/clusterStats.dart';
 import 'package:machine_learning/screens/correlation/correlation.dart';
 import 'package:machine_learning/screens/distribution/distribution.dart';
 import 'package:machine_learning/screens/prediction/prediction.dart';
@@ -27,6 +29,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => StatisticsScreen());
       case RouteStrings.predictionScreen:
         return MaterialPageRoute(builder: (_) => PredictionScreen());
+      case RouteStrings.clusteringStatsScreen:
+        return MaterialPageRoute(builder: (_) => ClusteringStatsScreen());
+      case RouteStrings.clusteringCountScreen:
+        return MaterialPageRoute(builder: (_) => ClusteringCountScreen());
     }
   }
 }
@@ -39,4 +45,6 @@ class RouteStrings {
   static const String correlationScreen = '/correlation';
   static const String statisticsScreen = '/statistics';
   static const String predictionScreen = '/prediction';
+  static const String clusteringStatsScreen = '/clusteringStats';
+  static const String clusteringCountScreen = '/clusteringCount';
 }

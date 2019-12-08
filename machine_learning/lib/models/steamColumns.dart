@@ -4,46 +4,43 @@ part 'steamColumns.g.dart';
 
 @JsonSerializable()
 class SteamColumns {
-  final int duration;
+  @JsonKey(name: "gold_per_min")
+  final int goldPerMin;
+  final int level;
+  @JsonKey(name: "leaver_status")
+  final int leaverStatus;
+  @JsonKey(name: "xp_per_min")
+  final int xpPerMin;
+  @JsonKey(name: "radiant_score")
+  final int radiantScore;
   @JsonKey(name: "gold_spent")
   final int goldSpent;
   final int deaths;
-  @JsonKey(name: "radiant_score")
-  final int radiantScore;
-  @JsonKey(name: "gold_per_min")
-  final int goldPerMin;
-  @JsonKey(name: "xp_per_min")
-  final int xpPerMin;
   final int denies;
-  @JsonKey(name: "tower_damage")
-  final int towerDamage;
-  @JsonKey(name: "leaver_status")
-  final int leaverStatus;
-  @JsonKey(name: "radiant_win")
-  final int radiantWin;
-  @JsonKey(name: "hero_healing")
-  final int heroHealing;
   @JsonKey(name: "hero_damage")
   final int heroDamage;
+  @JsonKey(name: "tower_damage")
+  final int towerDamage;
   @JsonKey(name: "last_hits")
   final int lastHits;
-  final int level;
+  @JsonKey(name: "hero_healing")
+  final int heroHealing;
+  final int duration;
 
   SteamColumns(
-      {this.duration,
-      this.radiantWin,
-      this.goldSpent,
-      this.radiantScore,
-      this.leaverStatus,
+      {this.goldPerMin,
       this.level,
-      this.heroHealing,
-      this.lastHits,
-      this.towerDamage,
-      this.heroDamage,
-      this.denies,
-      this.deaths,
+      this.leaverStatus,
       this.xpPerMin,
-      this.goldPerMin});
+      this.radiantScore,
+      this.goldSpent,
+      this.deaths,
+      this.denies,
+      this.heroDamage,
+      this.towerDamage,
+      this.lastHits,
+      this.heroHealing,
+      this.duration});
 
   factory SteamColumns.fromMappedJson(Map<String, dynamic> json) =>
       _$SteamColumnsFromJson(json);

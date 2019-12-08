@@ -152,7 +152,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
                                 painter: StringPainter(
                                     position: Offset(45, 0.0),
                                     angle: 0,
-                                    text:  Provider.of<AppState>(context).kaggleColumnNames.keys.elementAt(index)
+                                    text:  Provider.of<AppState>(context).kaggleColumnNames.keys.elementAt(index).toUpperCase()
                                         .replaceAll(RegExp('_'), ' '))),
                           );
                         }),

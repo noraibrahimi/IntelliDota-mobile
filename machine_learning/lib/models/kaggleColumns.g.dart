@@ -1,42 +1,40 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'steamColumns.dart';
+part of 'kaggleColumns.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SteamColumns _$SteamColumnsFromJson(Map<String, dynamic> json) {
-  return SteamColumns(
+KaggleColumns _$KaggleColumnsFromJson(Map<String, dynamic> json) {
+  return KaggleColumns(
     goldPerMin: json['gold_per_min'] as int,
     level: json['level'] as int,
-    leaverStatus: json['leaver_status'] as int,
     xpPerMin: json['xp_per_min'] as int,
-    radiantScore: json['radiant_score'] as int,
-    goldSpent: json['gold_spent'] as int,
     deaths: json['deaths'] as int,
     denies: json['denies'] as int,
     heroDamage: json['hero_damage'] as int,
     towerDamage: json['tower_damage'] as int,
     lastHits: json['last_hits'] as int,
     heroHealing: json['hero_healing'] as int,
-    duration: json['duration'] as int,
+    assists: json['assists'] as int,
+    kills: json['kills'] as int,
+    gold: json['gold'] as int,
   );
 }
 
-Map<String, dynamic> _$SteamColumnsToJson(SteamColumns instance) =>
+Map<String, dynamic> _$KaggleColumnsToJson(KaggleColumns instance) =>
     <String, dynamic>{
-      'gold_per_min': instance.goldPerMin,
-      'level': instance.level,
-      'leaver_status': instance.leaverStatus,
-      'xp_per_min': instance.xpPerMin,
-      'radiant_score': instance.radiantScore,
-      'gold_spent': instance.goldSpent,
+      'kills': instance.kills,
+      'gold': instance.gold,
       'deaths': instance.deaths,
+      'gold_per_min': instance.goldPerMin,
+      'xp_per_min': instance.xpPerMin,
+      'assists': instance.assists,
       'denies': instance.denies,
-      'hero_damage': instance.heroDamage,
       'tower_damage': instance.towerDamage,
-      'last_hits': instance.lastHits,
       'hero_healing': instance.heroHealing,
-      'duration': instance.duration,
+      'hero_damage': instance.heroDamage,
+      'last_hits': instance.lastHits,
+      'level': instance.level,
     };

@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:machine_learning/main.dart';
 import 'package:machine_learning/models/groupAndCount.dart';
+import 'package:machine_learning/models/groupType.dart';
 import 'package:machine_learning/models/schema.dart';
 import 'package:machine_learning/models/stage.dart';
 import 'package:machine_learning/models/steamColumns.dart';
@@ -144,12 +145,39 @@ class AppState with ChangeNotifier {
     return info;
   }
 
-  Future<Map<String, dynamic>> postPredict(Map<String,int> steamColumns) async {
-    http.Response response = await http.post(
-        AppConfig.of(navigatorKey.currentContext).apiBaseUrl + "/postPredict",
-        body: jsonEncode(steamColumns));
-    Map info = jsonDecode(response.body);
-    print(">>>>>>>>>>>>>>>>>>>>>>>> $info");
-    return info;
+  Future postPredict(SteamColumns steamColumns) async {
+    try {
+      http.Response response = await http.post(
+          AppConfig.of(navigatorKey.currentContext).apiBaseUrl + "/postPredict",
+          body: jsonEncode(steamColumns),
+          headers: {'Content-Type': "application/json"});
+      List info = jsonDecode(response.body);
+      return info.first['prediction'];
+    } catch (e, s) {
+      print(s);
+    }
+  }
+
+  Future<List<List<GroupType>>> getClusterStats() async {
+    http.Response response = await http.get(
+      AppConfig.of(navigatorKey.currentContext).apiBaseUrl + "/getClusterStats",
+    );
+    List info = jsonDecode(response.body);
+    List<Map<dynamic, dynamic>> kaggleColumns =
+        info.map((item) => Map.castFrom(item)).toList();
+
+   List<List<GroupType>> chartData = [];
+
+    kaggleColumns.forEach((element) {
+      List<GroupType> groupType = [];
+      for (int i = 0; i < element.keys.length; i++) {
+        groupType.add(GroupType(
+            text: element.keys.elementAt(i).toUpperCase()
+                .replaceAll(RegExp('_'), ' '),
+            value: element.values.elementAt(i)));
+      }
+      chartData.add(groupType);
+    });
+    return chartData;
   }
 }

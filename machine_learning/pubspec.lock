@@ -478,6 +478,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  super_tooltip:
+    dependency: "direct main"
+    description:
+      name: super_tooltip
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.9.0"
   term_glyph:
     dependency: transitive
     description:

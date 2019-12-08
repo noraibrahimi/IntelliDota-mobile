@@ -21,9 +21,9 @@ class PredictionTextField extends StatelessWidget {
         horizontal: ScreenUtil.getInstance().setHeight(120),
         vertical: ScreenUtil.getInstance().setHeight(10),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
-        onSubmitted: (value) {
+        onSaved: (value) {
           if (onSave != null) onSave(value);
         },
         keyboardType: TextInputType.numberWithOptions(signed: false),

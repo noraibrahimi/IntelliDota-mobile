@@ -9,7 +9,7 @@ final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 void main() {
   var configuredApp = new AppConfig(
-    apiBaseUrl: 'https://serverfinal3-qm4ka2ucaq-ew.a.run.app/',
+    apiBaseUrl: 'https://serverfinal3-qm4ka2ucaq-ew.a.run.app',
     child: new MyApp(),
   );
   runApp(configuredApp);
