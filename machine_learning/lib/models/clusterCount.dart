@@ -6,8 +6,9 @@ part 'clusterCount.g.dart';
 class ClusterCount {
   final int prediction;
   final int count;
+  var color;
 
-  ClusterCount({this.prediction,this.count});
+  ClusterCount({this.prediction,this.count,this.color});
 
   factory ClusterCount.fromMappedJson(Map<String, dynamic> json) =>
       _$ClusterCountFromJson(json);

@@ -63,7 +63,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
       domainAxis: charts.OrdinalAxisSpec(
           renderSpec: charts.SmallTickRendererSpec(
               labelStyle: charts.TextStyleSpec(
-                  fontSize: ScreenUtil.getInstance().setSp(24).toInt(),
+                  fontSize: ScreenUtil.getInstance().setSp(28).toInt(),
                   fontFamily: AppStrings.fontLight,
                   color: charts.MaterialPalette.white),
               lineStyle:
@@ -71,7 +71,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
       primaryMeasureAxis: charts.NumericAxisSpec(
           renderSpec: charts.GridlineRendererSpec(
               labelStyle: charts.TextStyleSpec(
-                  fontSize: ScreenUtil.getInstance().setSp(24).toInt(),
+                  fontSize: ScreenUtil.getInstance().setSp(28).toInt(),
                   fontFamily: AppStrings.fontLight,
                   color: charts.MaterialPalette.white),
               lineStyle:

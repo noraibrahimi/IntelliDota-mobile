@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 import 'package:machine_learning/main.dart';
+import 'package:machine_learning/models/clusterCount.dart';
 import 'package:machine_learning/models/groupAndCount.dart';
 import 'package:machine_learning/models/groupType.dart';
 import 'package:machine_learning/models/schema.dart';
@@ -166,18 +167,42 @@ class AppState with ChangeNotifier {
     List<Map<dynamic, dynamic>> kaggleColumns =
         info.map((item) => Map.castFrom(item)).toList();
 
-   List<List<GroupType>> chartData = [];
+    List<List<GroupType>> chartData = [];
 
     kaggleColumns.forEach((element) {
       List<GroupType> groupType = [];
       for (int i = 0; i < element.keys.length; i++) {
         groupType.add(GroupType(
-            text: element.keys.elementAt(i).toUpperCase()
+            text: element.keys
+                .elementAt(i)
+                .toUpperCase()
                 .replaceAll(RegExp('_'), ' '),
             value: element.values.elementAt(i)));
       }
       chartData.add(groupType);
     });
     return chartData;
+  }
+
+  Future<List<ClusterCount>> getClusterCount() async {
+    http.Response response = await http.get(
+      AppConfig.of(navigatorKey.currentContext).apiBaseUrl + "/getClusterCount",
+    );
+    List info = jsonDecode(response.body);
+
+    return info.map((item) => ClusterCount.fromMappedJson(item)).toList();
+  }
+
+  Future postCluster(SteamColumns steamColumns) async {
+    try {
+      http.Response response = await http.post(
+          AppConfig.of(navigatorKey.currentContext).apiBaseUrl + "/postCluster",
+          body: jsonEncode(steamColumns),
+          headers: {'Content-Type': "application/json"});
+      List info = jsonDecode(response.body);
+      return info.first['prediction'];
+    } catch (e, s) {
+      print(s);
+    }
   }
 }

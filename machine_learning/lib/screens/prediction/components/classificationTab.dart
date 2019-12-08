@@ -219,7 +219,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
                                               return SimpleDialog(
                                                 backgroundColor: Colors.white,
                                                 title: Text(
-                                                  'Given your input you are most likely to ${value.toInt() == 0 ? 'loose' : 'win'}',
+                                                  'Bazuar në të dhënat e ofruara, me shumë gjasë ju do të ${value.toInt() == 0 ? 'humbisni' : 'fitoni'}',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       color: AppColors
@@ -240,7 +240,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
                                                         alignment:
                                                             Alignment.centerRight,
                                                         child: Text(
-                                                          'close'.toUpperCase(),
+                                                          'MBYLL',
                                                           style: TextStyle(
                                                               color: Color(
                                                                   0xFF2CE6D8),
