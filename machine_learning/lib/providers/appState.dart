@@ -9,6 +9,7 @@ import 'package:machine_learning/main.dart';
 import 'package:machine_learning/models/clusterCount.dart';
 import 'package:machine_learning/models/groupAndCount.dart';
 import 'package:machine_learning/models/groupType.dart';
+import 'package:machine_learning/models/kaggleColumns.dart';
 import 'package:machine_learning/models/schema.dart';
 import 'package:machine_learning/models/stage.dart';
 import 'package:machine_learning/models/steamColumns.dart';
@@ -193,11 +194,11 @@ class AppState with ChangeNotifier {
     return info.map((item) => ClusterCount.fromMappedJson(item)).toList();
   }
 
-  Future postCluster(SteamColumns steamColumns) async {
+  Future postCluster(KaggleColumns kaggleColumns) async {
     try {
       http.Response response = await http.post(
           AppConfig.of(navigatorKey.currentContext).apiBaseUrl + "/postCluster",
-          body: jsonEncode(steamColumns),
+          body: jsonEncode(kaggleColumns),
           headers: {'Content-Type': "application/json"});
       List info = jsonDecode(response.body);
       return info.first['prediction'];

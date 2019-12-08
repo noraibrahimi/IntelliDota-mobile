@@ -4,24 +4,24 @@ part 'kaggleColumns.g.dart';
 
 @JsonSerializable()
 class KaggleColumns {
-  final int gold;
+  final double gold;
   @JsonKey(name: "gold_per_min")
-  final int goldPerMin;
+  final double goldPerMin;
   @JsonKey(name: "xp_per_min")
-  final int xpPerMin;
-  final int kills;
-  final int deaths;
-  final int assists;
-  final int denies;
+  final double xpPerMin;
+  final double kills;
+  final double deaths;
+  final double assists;
+  final double denies;
   @JsonKey(name: "last_hits")
-  final int lastHits;
+  final double lastHits;
   @JsonKey(name: "hero_damage")
-  final int heroDamage;
+  final double heroDamage;
   @JsonKey(name: "hero_healing")
-  final int heroHealing;
+  final double heroHealing;
   @JsonKey(name: "tower_damage")
-  final int towerDamage;
-  final int level;
+  final double towerDamage;
+  final double level;
 
   KaggleColumns(
       {this.gold,

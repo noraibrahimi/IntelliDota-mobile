@@ -8,33 +8,33 @@ part of 'kaggleColumns.dart';
 
 KaggleColumns _$KaggleColumnsFromJson(Map<String, dynamic> json) {
   return KaggleColumns(
-    goldPerMin: json['gold_per_min'] as int,
-    level: json['level'] as int,
-    xpPerMin: json['xp_per_min'] as int,
-    deaths: json['deaths'] as int,
-    denies: json['denies'] as int,
-    heroDamage: json['hero_damage'] as int,
-    towerDamage: json['tower_damage'] as int,
-    lastHits: json['last_hits'] as int,
-    heroHealing: json['hero_healing'] as int,
-    assists: json['assists'] as int,
-    kills: json['kills'] as int,
-    gold: json['gold'] as int,
+    gold: json['gold'] as double,
+    goldPerMin: json['gold_per_min'] as double,
+    xpPerMin: json['xp_per_min'] as double,
+    kills: json['kills'] as double,
+    deaths: json['deaths'] as double,
+    assists: json['assists'] as double,
+    denies: json['denies'] as double,
+    lastHits: json['last_hits'] as double,
+    heroDamage: json['hero_damage'] as double,
+    heroHealing: json['hero_healing'] as double,
+    towerDamage: json['tower_damage'] as double,
+    level: json['level'] as double,
   );
 }
 
 Map<String, dynamic> _$KaggleColumnsToJson(KaggleColumns instance) =>
     <String, dynamic>{
-      'kills': instance.kills,
       'gold': instance.gold,
-      'deaths': instance.deaths,
       'gold_per_min': instance.goldPerMin,
       'xp_per_min': instance.xpPerMin,
+      'kills': instance.kills,
+      'deaths': instance.deaths,
       'assists': instance.assists,
       'denies': instance.denies,
-      'tower_damage': instance.towerDamage,
-      'hero_healing': instance.heroHealing,
-      'hero_damage': instance.heroDamage,
       'last_hits': instance.lastHits,
+      'hero_damage': instance.heroDamage,
+      'hero_healing': instance.heroHealing,
+      'tower_damage': instance.towerDamage,
       'level': instance.level,
     };

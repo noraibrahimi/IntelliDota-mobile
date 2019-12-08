@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:machine_learning/models/kaggleColumns.dart';
 import 'package:machine_learning/models/steamColumns.dart';
 import 'package:machine_learning/providers/appState.dart';
 import 'package:machine_learning/utils/colors.dart';
@@ -25,7 +26,8 @@ class _ClusteringTabState extends State<ClusteringTab> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      kaggleColumnNames.addAll(Provider.of<AppState>(context).kaggleColumnNames);
+      kaggleColumnNames
+          .addAll(Provider.of<AppState>(context).kaggleColumnNames);
       setState(() {});
       ;
       kaggleColumnNames.keys.forEach((_) {
@@ -110,48 +112,140 @@ class _ClusteringTabState extends State<ClusteringTab> {
                                       setState(() {
                                         hasPressed = true;
                                       });
-
-                                      await showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return SimpleDialog(
-                                              backgroundColor: Colors.white,
-                                              title: Text(
-                                                'Bazuar në të dhënat e ofruara, me shumë gjasë ju do të',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    color: AppColors
-                                                        .secondaryColor,
-                                                    fontFamily:
-                                                        AppStrings.fontMedium),
-                                              ),
-                                              children: <Widget>[
-                                                SimpleDialogOption(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(
-                                                        ScreenUtil.getInstance()
-                                                            .setHeight(10)),
-                                                    child: Align(
-                                                      alignment:
-                                                          Alignment.centerRight,
-                                                      child: Text(
-                                                        'MBYLL',
-                                                        style: TextStyle(
-                                                            color: Color(
-                                                                0xFF2CE6D8),
-                                                            fontFamily:
-                                                                AppStrings
-                                                                    .fontMedium),
+                                      await Provider.of<AppState>(context)
+                                          .postCluster(KaggleColumns(
+                                        kills: textEditingControllers[0]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[0].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(0),
+                                        gold: textEditingControllers[1]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[1].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(1),
+                                        deaths: textEditingControllers[2]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[2].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(2),
+                                        goldPerMin: textEditingControllers[3]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[3].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(3),
+                                        xpPerMin: textEditingControllers[4]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[4].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(4),
+                                        assists: textEditingControllers[5]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[5].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(5),
+                                        denies: textEditingControllers[6]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[6].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(6),
+                                        towerDamage: textEditingControllers[7]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[7].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(7),
+                                        heroHealing: textEditingControllers[8]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[8].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(8),
+                                        heroDamage: textEditingControllers[9]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[9].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(9),
+                                        lastHits: textEditingControllers[10]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[10].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(10),
+                                        level: textEditingControllers[11]
+                                                .text
+                                                .isNotEmpty
+                                            ? double.parse(
+                                                textEditingControllers[11].text)
+                                            : kaggleColumnNames.values
+                                                .elementAt(11),
+                                      ))
+                                          .then((value) async {
+                                        setState(() {
+                                          hasPressed = false;
+                                        });
+                                        await showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return SimpleDialog(
+                                                backgroundColor: Colors.white,
+                                                title: Text(
+                                                  'Bazuar në të dhënat e ofruara ju do i takoni kllasterit $value',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: AppColors
+                                                          .secondaryColor,
+                                                      fontFamily: AppStrings
+                                                          .fontMedium),
+                                                ),
+                                                children: <Widget>[
+                                                  SimpleDialogOption(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Padding(
+                                                      padding: EdgeInsets.all(
+                                                          ScreenUtil
+                                                                  .getInstance()
+                                                              .setHeight(10)),
+                                                      child: Align(
+                                                        alignment: Alignment
+                                                            .centerRight,
+                                                        child: Text(
+                                                          'MBYLL',
+                                                          style: TextStyle(
+                                                              color: Color(
+                                                                  0xFF2CE6D8),
+                                                              fontFamily:
+                                                                  AppStrings
+                                                                      .fontMedium),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
-                                            );
-                                          });
+                                                ],
+                                              );
+                                            });
+                                      });
                                     },
                                     color: Colors.white,
                                     shape: RoundedRectangleBorder(
