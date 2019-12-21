@@ -57,21 +57,21 @@ class IntelliDrawer extends StatelessWidget {
         ),
         listItem(
             context: context,
-            title: "Shpërndarja",
+            title: "Diskretizuesi",
             routeName: RouteStrings.distributionScreen),
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),
         ),
         listItem(
             context: context,
-            title: "Fazat",
+            title: "Fazat Për Trajnim",
             routeName: RouteStrings.stagesScreen),
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),
         ),
         listItem(
             context: context,
-            title: "Mostër e të dhënave",
+            title: "Mostrat e të dhënave",
             routeName: RouteStrings.sampleScreen),
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),
@@ -85,28 +85,28 @@ class IntelliDrawer extends StatelessWidget {
         ),
         listItem(
             context: context,
-            title: "Statistika",
+            title: "Struktura e Data Seteve",
             routeName: RouteStrings.statisticsScreen),
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),
         ),
         listItem(
             context: context,
-            title: "Predikim",
+            title: "Predikim në Kohë Reale",
             routeName: RouteStrings.predictionScreen),
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),
         ),
         listItem(
             context: context,
-            title: "Statistika te Kllasterimit",
+            title: "Kllasterët",
             routeName: RouteStrings.clusteringStatsScreen),
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),
         ),
         listItem(
             context: context,
-            title: "Shpërndarja tek Kllasterimi",
+            title: "Grupimi i Kllasterëve",
             routeName: RouteStrings.clusteringCountScreen),
         SizedBox(
           height: ScreenUtil.getInstance().setHeight(10),

@@ -14,6 +14,7 @@ class StringPainter extends CustomPainter {
     canvas.save();
     canvas.translate(0.0, 0.0);
     canvas.rotate(angle);
+
     TextSpan span = TextSpan(
         style: TextStyle(
             color: Colors.white,
@@ -23,10 +24,10 @@ class StringPainter extends CustomPainter {
 
     TextPainter tp = TextPainter(
         text: span,
-        textAlign: TextAlign.right,
-        textDirection: TextDirection.ltr);
+        textAlign: TextAlign.end,
+        textDirection: TextDirection.rtl);
 
-    tp.layout(maxWidth: size.width);
+    tp.layout();
     tp.paint(canvas, position);
     canvas.restore();
   }

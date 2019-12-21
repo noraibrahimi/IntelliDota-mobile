@@ -81,18 +81,19 @@ class AppState with ChangeNotifier {
         : steamColumnNames = await jsonDecode(response.body);
   }
 
+
   Future<List<GroupAndCount>> getGroupAndCount(
-      {tableType type, String attribute}) async {
+      {tableType type, String attribute, int partitions}) async {
     http.Response response = await http.get(
       AppConfig.of(navigatorKey.currentContext).apiBaseUrl +
-          "/getGroupAndCount?kind=${type.toString().split('.').last}&attribute=$attribute&partitions=4",
+          "/getGroupAndCount?kind=${type.toString().split('.').last}&attribute=$attribute&partitions=$partitions",
     );
     List info = jsonDecode(response.body);
     type == tableType.kaggle
         ? _kaggleGroupAndCount =
-            info.map((item) => GroupAndCount.fromMappedJson(item)).toList()
+        info.map((item) => GroupAndCount.fromMappedJson(item)).toList()
         : _steamGroupAndCount =
-            info.map((item) => GroupAndCount.fromMappedJson(item)).toList();
+        info.map((item) => GroupAndCount.fromMappedJson(item)).toList();
     return type == tableType.kaggle
         ? _kaggleGroupAndCount
         : _steamGroupAndCount;

@@ -19,7 +19,7 @@ class ClusteringTab extends StatefulWidget {
 }
 
 class _ClusteringTabState extends State<ClusteringTab> {
-  double rating = 0;
+  double rating = 5.0;
   int _currentButton = -1;
   bool _loading = false;
   List<String> upperLowerBounds = [];
@@ -38,20 +38,19 @@ class _ClusteringTabState extends State<ClusteringTab> {
 
   _generateData(myData) {
     Provider.of<AppState>(context).kaggleSeriesData.add(charts.Series(
-          id: 'tets',
-          domainFn: (GroupAndCount groupAndCount, _) => groupAndCount.bucket,
-          measureFn: (GroupAndCount groupAndCount, _) => groupAndCount.count,
-          seriesColor: charts.Color.white,
-          data: myData,
-        ));
+      id: 'tets',
+      domainFn: (GroupAndCount groupAndCount, _) => groupAndCount.bucket,
+      measureFn: (GroupAndCount groupAndCount, _) => groupAndCount.count,
+      seriesColor: charts.Color.white,
+      data: myData,
+    ));
   }
 
   Widget _buildChart(BuildContext context) {
     _generateData(Provider.of<AppState>(context).kaggleGroupAndCount);
     return Container(
         margin: EdgeInsets.symmetric(
-            vertical: ScreenUtil.getInstance().setHeight(70),
-            horizontal: ScreenUtil.getInstance().setHeight(50)),
+            vertical: ScreenUtil.getInstance().setHeight(70)),
         child: Center(
           child: charts.LineChart(
             Provider.of<AppState>(context).kaggleSeriesData,
@@ -61,13 +60,13 @@ class _ClusteringTabState extends State<ClusteringTab> {
             selectionModels: [
               charts.SelectionModelConfig(
                   changedListener: (charts.SelectionModel model) {
-                if (model.hasDatumSelection) {
-                  setState(() {
-                    render.text =
+                    if (model.hasDatumSelection) {
+                      setState(() {
+                        render.text =
                         upperLowerBounds[model.selectedDatum[0].index];
-                  });
-                }
-              })
+                      });
+                    }
+                  })
             ],
             domainAxis: new charts.NumericAxisSpec(
                 renderSpec: charts.GridlineRendererSpec(
@@ -96,10 +95,54 @@ class _ClusteringTabState extends State<ClusteringTab> {
         children: <Widget>[
           Container(
             margin: EdgeInsets.symmetric(
-                horizontal: ScreenUtil.getInstance().setHeight(20)),
+                horizontal: ScreenUtil.getInstance().setHeight(70)),
             child: Column(
               children: <Widget>[
                 Expanded(child: _buildChart(context)),
+                Slider(
+                  min: 5.0,
+                  max: 20.0,
+                  value: rating,
+                  onChanged: (newRating) async {
+                    setState(() {
+                      rating = newRating;
+                    });
+                    if (_currentButton != -1) {
+                      await Future.delayed(Duration(milliseconds: 300));
+                      setState(() {
+                        _loading = true;
+                        upperLowerBounds = [];
+                      });
+
+                      Provider.of<AppState>(context)
+                          .getGroupAndCount(
+                          type: tableType.kaggle,
+                          attribute: Provider.of<AppState>(context)
+                              .kaggleColumnNames
+                              .keys
+                              .elementAt(_currentButton),
+                          partitions: rating.toInt())
+                          .then((_) {
+                        if (_currentButton != -1)
+                          Provider.of<AppState>(context).kaggleSeriesData = [];
+                        setState(() {
+                          Provider.of<AppState>(context)
+                              .kaggleGroupAndCount
+                              .forEach((item) {
+                            upperLowerBounds.add(
+                                'U: ${item.upperBound}\nL: ${item.lowerBound}');
+                          });
+                          _loading = false;
+                        });
+                      });
+                    }
+                    setState(() {});
+                  },
+                  inactiveColor: Colors.white,
+                  activeColor: AppColors.secondaryColor,
+                  divisions: 3,
+                  label: "$rating",
+                ),
                 Divider(
                   color: Color(0xff57616f),
                 ),
@@ -108,7 +151,6 @@ class _ClusteringTabState extends State<ClusteringTab> {
                     constraints: BoxConstraints(
                         maxHeight: ScreenUtil.getInstance().setHeight(1000)),
                     margin: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil.getInstance().setHeight(50),
                         vertical: ScreenUtil.getInstance().setHeight(20)),
                     child: GridView.builder(
                         primary: false,
@@ -116,8 +158,8 @@ class _ClusteringTabState extends State<ClusteringTab> {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           childAspectRatio:
-                              ScreenUtil.getInstance().setWidth(650) /
-                                  (MediaQuery.of(context).size.height / 4),
+                          ScreenUtil.getInstance().setWidth(650) /
+                              (MediaQuery.of(context).size.height / 4),
                         ),
                         itemCount: Provider.of<AppState>(context)
                             .kaggleColumnNames
@@ -127,7 +169,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
                             child: listItem(
                                 index: index,
                                 title:
-                                    "${Provider.of<AppState>(context).kaggleColumnNames.keys.elementAt(index)}",
+                                "${Provider.of<AppState>(context).kaggleColumnNames.keys.elementAt(index)}",
                                 isSelected: false),
                           );
                         }),
@@ -140,11 +182,11 @@ class _ClusteringTabState extends State<ClusteringTab> {
             color: Colors.black.withOpacity(0.5),
             child: _loading
                 ? Center(
-                    child: SpinKitRing(
-                      size: 80,
-                      color: Colors.white,
-                    ),
-                  )
+              child: SpinKitRing(
+                size: 80,
+                color: Colors.white,
+              ),
+            )
                 : SizedBox(),
           )
         ],
@@ -167,8 +209,12 @@ class _ClusteringTabState extends State<ClusteringTab> {
         _currentButton = index;
         Provider.of<AppState>(context)
             .getGroupAndCount(
-                type: tableType.kaggle,
-                attribute: Provider.of<AppState>(context).kaggleColumnNames.keys.elementAt(_currentButton))
+            type: tableType.kaggle,
+            partitions: rating.toInt(),
+            attribute: Provider.of<AppState>(context)
+                .kaggleColumnNames
+                .keys
+                .elementAt(_currentButton))
             .then((_) {
           if (_currentButton != -1)
             Provider.of<AppState>(context).kaggleSeriesData = [];
@@ -219,7 +265,7 @@ class _ClusteringTabState extends State<ClusteringTab> {
         decoration: BoxDecoration(
           color: _currentButton == index ? Colors.white : null,
           borderRadius:
-              BorderRadius.circular(ScreenUtil.getInstance().setHeight(12)),
+          BorderRadius.circular(ScreenUtil.getInstance().setHeight(12)),
           border: Border.all(
             color: Colors.grey.withOpacity(0.3),
           ),

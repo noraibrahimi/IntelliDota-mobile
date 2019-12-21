@@ -19,9 +19,11 @@ class ClassificationTab extends StatefulWidget {
 }
 
 class _ClassificationTabState extends State<ClassificationTab> {
-  double rating = 0;
+  double rating = 5.0;
   int _currentButton = -1;
   bool _loading = false;
+  bool sliderValueChanged = false;
+
   List<String> upperLowerBounds = [];
   CustomCircleSymbolRenderer render = new CustomCircleSymbolRenderer();
 
@@ -48,8 +50,7 @@ class _ClassificationTabState extends State<ClassificationTab> {
     _generateData(Provider.of<AppState>(context).steamGroupAndCount);
     return Container(
       margin: EdgeInsets.symmetric(
-          vertical: ScreenUtil.getInstance().setHeight(70),
-          horizontal: ScreenUtil.getInstance().setHeight(50)),
+          vertical: ScreenUtil.getInstance().setHeight(70)),
       child: Center(
         child: charts.LineChart(
           Provider.of<AppState>(context).steamSeriesData,
@@ -94,10 +95,56 @@ class _ClassificationTabState extends State<ClassificationTab> {
         children: <Widget>[
           Container(
             margin: EdgeInsets.symmetric(
-                horizontal: ScreenUtil.getInstance().setHeight(20)),
+                horizontal: ScreenUtil.getInstance().setHeight(70)),
             child: Column(
               children: <Widget>[
                 Expanded(child: _buildChart(context)),
+                Slider(
+                  min: 5.0,
+                  max: 20.0,
+                  value: rating,
+                  onChanged: (newRating) async {
+                    setState(() {
+                      if (_currentButton != -1) sliderValueChanged = true;
+                      rating = newRating;
+                    });
+                    if (_currentButton != -1) {
+                      await Future.delayed(Duration(milliseconds: 300));
+                      setState(() {
+                        upperLowerBounds = [];
+                      });
+
+                      Provider.of<AppState>(context)
+                          .getGroupAndCount(
+                              type: tableType.steam,
+                              attribute: Provider.of<AppState>(context)
+                                  .steamColumnNames
+                                  .keys
+                                  .elementAt(_currentButton),
+                              partitions: rating.toInt())
+                          .then((_) {
+                        if (_currentButton != -1)
+                          Provider.of<AppState>(context).steamSeriesData = [];
+
+                        setState(() {
+                          if (_currentButton != -1) sliderValueChanged = false;
+
+                          Provider.of<AppState>(context)
+                              .steamGroupAndCount
+                              .forEach((item) {
+                            upperLowerBounds.add(
+                                'U: ${item.upperBound}\nL: ${item.lowerBound}');
+                          });
+                        });
+                      });
+                    }
+                    setState(() {});
+                  },
+                  inactiveColor: Colors.white,
+                  activeColor: AppColors.secondaryColor,
+                  divisions: 3,
+                  label: "$rating",
+                ),
                 Divider(
                   color: Color(0xff57616f),
                 ),
@@ -105,8 +152,6 @@ class _ClassificationTabState extends State<ClassificationTab> {
                   child: Container(
                     constraints: BoxConstraints(
                         maxHeight: ScreenUtil.getInstance().setHeight(1000)),
-                    margin: EdgeInsets.symmetric(
-                        horizontal: ScreenUtil.getInstance().setHeight(50)),
                     child: GridView.builder(
                         primary: false,
                         scrollDirection: Axis.vertical,
@@ -132,6 +177,19 @@ class _ClassificationTabState extends State<ClassificationTab> {
                 ),
               ],
             ),
+          ),
+          Positioned(
+            top: ScreenUtil.getInstance().setHeight(300),
+            left: ScreenUtil.getInstance().setWidth(460),
+            child: Container(
+                child: Center(
+              child: sliderValueChanged
+                  ? SpinKitRing(
+                      size: 80,
+                      color: Colors.white,
+                    )
+                  : SizedBox(),
+            )),
           ),
           Container(
             color: Colors.black.withOpacity(0.5),
@@ -165,15 +223,19 @@ class _ClassificationTabState extends State<ClassificationTab> {
         Provider.of<AppState>(context)
             .getGroupAndCount(
                 type: tableType.steam,
-                attribute:Provider.of<AppState>(context).steamColumnNames.keys.elementAt(_currentButton))
+                attribute: Provider.of<AppState>(context)
+                    .steamColumnNames
+                    .keys
+                    .elementAt(_currentButton),
+                partitions: rating.toInt())
             .then((_) {
           if (_currentButton != -1)
             Provider.of<AppState>(context).steamSeriesData = [];
 
           setState(() {
             Provider.of<AppState>(context).steamGroupAndCount.forEach((item) {
-              upperLowerBounds.add(
-                  'U: ${item.upperBound}\nL: ${item.lowerBound}');
+              upperLowerBounds
+                  .add('U: ${item.upperBound}\nL: ${item.lowerBound}');
             });
             _loading = false;
           });

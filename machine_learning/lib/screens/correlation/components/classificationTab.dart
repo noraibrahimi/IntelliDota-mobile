@@ -21,6 +21,7 @@ class ClassificationTab extends StatefulWidget {
 class _ClassificationTabState extends State<ClassificationTab> {
   List<dynamic> points = [];
 
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +34,6 @@ class _ClassificationTabState extends State<ClassificationTab> {
       });
     });
   }
-
   Widget _buildBody(context) {
     return SafeArea(
         child: points.isEmpty
@@ -71,7 +71,10 @@ class _ClassificationTabState extends State<ClassificationTab> {
                                       ScreenUtil.getInstance().setHeight(950),
                                   child: ListView.builder(
                                       physics: NeverScrollableScrollPhysics(),
-                                      itemCount: sqrt(points.length).toInt(),
+                                      itemCount: sqrt(
+                                          points
+                                                  .length)
+                                          .toInt(),
                                       itemBuilder: (context, index) {
                                         return Container(
                                           height: ScreenUtil.getInstance()
@@ -97,8 +100,12 @@ class _ClassificationTabState extends State<ClassificationTab> {
                                           .setHeight(20)),
                                   child: CustomPaint(
                                     painter: PlotPainter(
-                                        List<double>.from(points),
-                                        divisions: sqrt(points.length).toInt()),
+                                        List<double>.from(
+                                            points),
+                                        divisions: sqrt(
+                                            points
+                                                    .length)
+                                            .toInt()),
                                   ),
                                 ),
                               ],
@@ -113,7 +120,9 @@ class _ClassificationTabState extends State<ClassificationTab> {
                               child: ListView.builder(
                                   physics: NeverScrollableScrollPhysics(),
                                   scrollDirection: Axis.horizontal,
-                                  itemCount: sqrt(points.length).toInt(),
+                                  itemCount: sqrt(points
+                                          .length)
+                                      .toInt(),
                                   itemBuilder: (context, index) {
                                     return Container(
                                       width: ScreenUtil.getInstance()
@@ -147,13 +156,23 @@ class _ClassificationTabState extends State<ClassificationTab> {
                             padding: EdgeInsets.symmetric(
                                 horizontal:
                                     ScreenUtil.getInstance().setHeight(37)),
-                            child: CustomPaint(
-                                painter: StringPainter(
-                                    position: Offset(45, 0.0),
-                                    angle: 0,
-                                    text: Provider.of<AppState>(context).steamColumnNames.keys.elementAt(index)
-                                        .toUpperCase()
-                                        .replaceAll(RegExp('_'), ' '))),
+                            child: Transform(
+                                transform: Matrix4.identity()
+                                  ..rotateX(0)
+                                  ..rotateY(0)
+                                  ..rotateZ(-2),
+                                alignment: FractionalOffset.center,
+                                child: CustomPaint(
+                                  painter: StringPainter(
+                                      position: Offset(-20, -100.0),
+                                      angle: -3.1,
+                                      text: Provider.of<AppState>(context)
+                                          .steamColumnNames
+                                          .keys
+                                          .elementAt(index)
+                                          .toUpperCase()
+                                          .replaceAll(RegExp('_'), ' ')),
+                                )),
                           );
                         }),
                   ),

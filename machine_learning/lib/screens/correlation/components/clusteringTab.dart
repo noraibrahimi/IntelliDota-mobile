@@ -8,7 +8,6 @@ import 'package:machine_learning/providers/appState.dart';
 import 'package:machine_learning/screens/correlation/components/plotGradient.dart';
 import 'package:machine_learning/screens/correlation/components/plotPainter.dart';
 import 'package:machine_learning/screens/correlation/components/textPainter.dart';
-import 'package:machine_learning/utils/colors.dart';
 import 'package:machine_learning/utils/strings.dart';
 import 'package:provider/provider.dart';
 
@@ -21,6 +20,7 @@ class ClusteringTab extends StatefulWidget {
 
 class _ClusteringTabState extends State<ClusteringTab> {
   List<dynamic> points = [];
+
 
   @override
   void initState() {
@@ -148,19 +148,29 @@ class _ClusteringTabState extends State<ClusteringTab> {
                             padding: EdgeInsets.symmetric(
                                 horizontal:
                                     ScreenUtil.getInstance().setHeight(40)),
-                            child: CustomPaint(
-                                painter: StringPainter(
-                                    position: Offset(45, 0.0),
-                                    angle: 0,
-                                    text:  Provider.of<AppState>(context).kaggleColumnNames.keys.elementAt(index).toUpperCase()
-                                        .replaceAll(RegExp('_'), ' '))),
+                            child: Transform(
+                                transform: Matrix4.identity()
+                                  ..rotateX(0)
+                                  ..rotateY(0)
+                                  ..rotateZ(-2),
+                                alignment: FractionalOffset.center,
+                                child: CustomPaint(
+                                  painter: StringPainter(
+                                      position: Offset(-20, -100.0),
+                                      angle: -3.1,
+                                      text: Provider.of<AppState>(context)
+                                          .steamColumnNames
+                                          .keys
+                                          .elementAt(index)
+                                          .toUpperCase()
+                                          .replaceAll(RegExp('_'), ' ')),
+                                )),
                           );
                         }),
                   ),
                 ],
               ));
   }
-
 
   @override
   Widget build(BuildContext context) {
